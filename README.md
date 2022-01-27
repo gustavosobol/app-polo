@@ -16,7 +16,10 @@ cantidad de aulas en cada institucion
 encuestas para los alumnos
 
 
-
-
+para ejecutar el comando con docker 
+primero clonar el repositorio 
+moverse a la carpeta proyecto
+ejecutar el comando docker-compose run app npm install
+y despues ejecutar el comando docker-compose up -d 
 
 
