@@ -2,35 +2,73 @@ El diagrama entidad relacion
 
 Tabla Alumnos:
 Campos:
-    id
-    nroDocumento
-    apellido 
-    nombre
-    fechaNacimiento
-    email
-    celular
-    domicilio
-    barrio
-    localidad
+    id (autonumerico)
+    nroDocumento (numero)
+    apellido (texto)
+    nombre (texto)
+    fechaNacimiento (date)
+    email (texto)
+    celular (texto)
+    domicilio (texto)
+    barrio (texto)
 Relaciones a uno a uno:
     localidad
 
 Tabla Localidad:
 Campos: 
-    id
-    nombre
+    id (autonumerico)
+    nombre (texto)
 Relaciones de uno a muchas:
-    Alumnos
+    Alumnos 
     Salas
     LocalidadOnCurso
+
 Tabla Salas:
 Campos:
-    id
-    nombre 
-    descripcion
+    id (autonumerico)
+    nombre (texto)
+    descripcion (texto)
 Relacion de uno a uno:
     Localidad
-Relaicion de uno a muchos:
-    Cursos Activo
+Relacion de uno a muchos:
+    CursosActivos
 
+Tabla CursosActivos:
+Campos:
+    id (autonumerico)
+    activo (bool)
+    fechaInicio (date)
+    fechaFin (date)
+    horario (texto)
+    cupos (numero)
+    descripcion (texto)
+Relacion de uno a uno:
+    Sala
+Relacion de uno a muchos:
+    AlumnoOnCursoActivo
+    LocalidadOnCurso
 
+Tabla LocalidadOnCurso: 
+** Tabla creada para relacion de muchos a muchos **:
+Campos:
+    descripcion (texto)
+    nombreMostrar (texto)
+Relacion de uno a muchos:
+    Cursos
+    Localidad    
+
+Tabla Curso: 
+Campos:
+    id (autonumerico)
+    nombre (texto)
+    descripcion (texto)
+Relacion de uno a muchos:
+    LocalidadOnCurso
+    DestinatarioOnCurso
+
+Tabla Destinatarios: 
+Campos:
+    id (autonumerico)
+    nombre (descripcion)
+Relacion de uno a muchos:
+    DestinatarioOnCurso
