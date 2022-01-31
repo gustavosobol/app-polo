@@ -1,0 +1,36 @@
+El diagrama entidad relacion
+
+Tabla Alumnos:
+Campos:
+    id
+    nroDocumento
+    apellido 
+    nombre
+    fechaNacimiento
+    email
+    celular
+    domicilio
+    barrio
+    localidad
+Relaciones a uno a uno:
+    localidad
+
+Tabla Localidad:
+Campos: 
+    id
+    nombre
+Relaciones de uno a muchas:
+    Alumnos
+    Salas
+    LocalidadOnCurso
+Tabla Salas:
+Campos:
+    id
+    nombre 
+    descripcion
+Relacion de uno a uno:
+    Localidad
+Relaicion de uno a muchos:
+    Cursos Activo
+
+
