@@ -25,11 +25,13 @@
 ```
 git clone
 ```
-**Paso 2:** Ejecutar el comando, este comando lo hace descarga e instala todas las dependencias que necesita el proyecto para poder ejecutarse
+**Paso 2:** ingresar a la carpeta decargada
+
+**Paso 3:** Ejecutar el comando, este comando lo hace descarga e instala todas las dependencias que necesita el proyecto para poder ejecutarse
 ```
 docker-compose run evento npm install
 ```
-**Paso 3:** Ejecuta el servidor para su conexion
+**Paso 4:** Ejecuta el servidor para su conexion
 ```
 docker-compose up -d
 ```
