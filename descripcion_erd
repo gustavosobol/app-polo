@@ -72,3 +72,26 @@ Campos:
     nombre (descripcion)
 Relacion de uno a muchos:
     DestinatarioOnCurso
+
+
+
+
+Pantalla principal debe ser de la pantalla cursosactivos en el cual debe mostrar en la lista todos los cursos activos
+
+    activo 
+    nombre_del_curso
+    localidad ***
+    destinatario
+    fechaInicio 
+    fechaFin 
+    horario 
+    cupos 
+    descripcion
+    localidad
+
+Campos Pendientes para agregar 
+    dias del curso, profesor
+
+debe existir un boton que sirva para preinscribirse en el curso, ese boton debe llevar a una pantalla donde le pida el nro de documento.
+Despues de ahi armar un abm para el futuro alumno 
+
