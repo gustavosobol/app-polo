@@ -4,6 +4,16 @@
       <q-input name="firstname" v-model="firstname">
       </q-input>
 
+
+
+
+
+<div>User {{ $route.params.idAlumno }} - Curso {{ $route.params.idCurso }}</div>
+
+
+
+
+
 <div class="q-pa-md" style="max-width: 300px">
     <q-input filled v-model="date" mask="date" :rules="['date']">
       <template v-slot:append>

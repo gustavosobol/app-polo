@@ -1,10 +1,23 @@
 <template>
+
+
+
+
+
   <div class="q-pa-md">
-  
+
+  <q-item to="/alumnos/5" exact>
+    <q-item-section avatar>
+      <q-icon name="inbox" />
+    </q-item-section>
+
+    <q-item-section>
+      Inbox
+    </q-item-section>
+  </q-item>
 
 
-
-              <q-dialog v-model="prompt" persistent>
+          <q-dialog v-model="prompt" persistent>
               <q-card style="min-width: 350px">
                 <q-card-section>
                   <div class="text-h6">Curso seleccionado: {{ actual }}</div>
@@ -28,7 +41,7 @@
       :rows="rows"
       :columns="columns"
       row-key="id"
-      v-model:pagination="pagination"
+      
       :loading="loading"
       :filter="filter"
       @request="onRequest"
@@ -58,7 +71,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td auto-width>
-            <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'warning' : 'add'" />
+            <q-btn size="sm" color="accent" label="Flat" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'warning' : 'add'" />
             <q-btn label="Agregar Alumno" color="primary" @click="prompt = true,  actual = props.row.nombre "  />
             
           </q-td>

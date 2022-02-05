@@ -5,7 +5,6 @@
       :rows="rows"
       :columns="columns"
       row-key="id"
-      v-model:pagination="pagination"
       :loading="loading"
       :filter="filter"
       @request="onRequest"
