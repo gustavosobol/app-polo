@@ -182,7 +182,7 @@ const originalRows = [
 export default {
   setup () {
     let actual = '0'
-    let doc = ref(' ')
+    let doc = ref()
     const rows = ref([])
     const filter = ref('')
     const loading = ref(false)
