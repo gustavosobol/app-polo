@@ -7,7 +7,7 @@ const routes = [
       { path: '/boton', component: () => import('pages/plantillas/navegacion.vue') },
       { path: '', component: () => import('pages/Index.vue') },
       { path: '/alumnos/', component: () => import('pages/students/add-students.vue') },
-      { path: '/alumnos/:idAlumno/:idCurso', name: 'Alumnos', component: () => import('pages/students/add-students.vue') },
+      { path: '/alumnos/', name: 'Alumnos', component: () => import('pages/students/add-students.vue') },
       { path: '/cursos', component: () => import('pages/course-registration/index.vue') }
     ]
   },

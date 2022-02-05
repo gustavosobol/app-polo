@@ -22,3 +22,6 @@ https://quasar.dev/quasar-plugins/notify#predefined-types
 
 Botones
 https://quasar.dev/vue-components/button#introduction
+
+envio parametro por url 
+https://stackoverflow.com/questions/60375501/how-to-send-route-props-through-router-link
