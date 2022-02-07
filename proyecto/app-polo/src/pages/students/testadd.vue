@@ -55,12 +55,13 @@
         ]"
       />
 
-  <div class="q-pa-md" style="max-width: 300px">
-    <q-input filled v-model="date"  mask=date :rules="['date']" hint="Fecha de nacimiento">
+  <div class="q-pa-md" style="max-width: 400px">
+    <q-input filled v-model= "date" mask= "" :rules="['date']" hint="Fecha de nacimiento">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
             <q-date v-model="date">
+                
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>

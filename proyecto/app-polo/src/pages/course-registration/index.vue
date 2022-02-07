@@ -264,7 +264,7 @@ async function callEndpoints() {
       pagination,
       columns,
       rows,
-      visibleColumns: ref([  'nombre', 'destinatarioNombre', 'fechaInicio', 'fechaFin', 'horario' ]),
+      visibleColumns: ref([ 'id', 'nombre', 'destinatarioNombre', 'fechaInicio', 'fechaFin', 'horario' ]),
       onRequest,
       prompt: ref(false),
       callEndpoints,
