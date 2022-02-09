@@ -1,22 +1,22 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
-
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-
-      class="q-gutter-md"
-    >
+  <q-page class="q-pa-xl" style="max-width: 1000px">
+      <h6 class="q-my-sm">Agregar alumno </h6>
+      <div class="row">
+      <div class="col-md-5 q-pr-xl">
+      <!-- Columna1 -->
       <q-input
+        
         filled
         v-model="name"
         label="Nombre"
         hint=""
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Complete el campo']"
-      />
+        :rules="[ val => val && val.length > 0 || 'Complete el campo',
+                  val => val && val.length < 30 || 'Demasiado largo'
+                ]"
+        />
 
-      <q-input
+        <q-input
         filled
         v-model="apellido"
         label="Apellido"
@@ -27,35 +27,17 @@
 
       <q-input
         filled
-        v-model="numero_tel"
-        label="Numero de telefono"
-        hint=""
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Complete el campo']"
-      />
-
-      <q-input
-        filled
-        v-model="numero_contacto"
-        label="Numero de contacto"
-        hint="Para emergencias"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Complete el campo']"
-      />
-
-      <q-input
-        filled
         type="number"
         v-model="age"
-        label="Your age *"
+        label="DNI"
         lazy-rules
         :rules="[
-          val => val !== null && val !== '' || 'Ingrese la edad',
-          val => val > 0 && val < 100 || 'La edad debe ser real'
+          val => val !== null && val !== '' || 'Ingrese el numero de DNI',
+          val => val.length === 8  || 'El numero debe ser valido'
         ]"
       />
 
-  <div class="q-pa-md" style="max-width: 300px">
+
     <q-input filled v-model="date"  mask=date :rules="['date']" hint="Fecha de nacimiento">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -69,7 +51,71 @@
         </q-icon>
       </template>
     </q-input>
-  </div>
+
+
+      </div>
+      <div class="col-md-5 q-pl-sm">
+      <!-- Columna2 -->
+
+      <q-input
+        filled
+        v-model="numero_tel"
+        type="number"
+        label="Numero de telefono"
+        hint=""
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Complete el campo']"
+      />
+
+
+     <q-input
+        filled
+        v-model="numero_contacto"
+        type="number"
+        label="Numero de contacto en caso de emergencia"
+        hint=""
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Complete el campo']"
+      />
+
+
+
+
+
+      <q-input
+        filled
+        v-model="domicilio"
+        label="Domicilio"
+        hint=""
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Complete el campo']"
+      />
+
+      <q-select filled v-model="model" :options="options" label="Barrio" />
+
+      </div>
+    </div>
+
+
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
+
+      class="q-gutter-md"
+    >
+
+
+
+
+
+
+
+
+
+
+
+  
+</q-form>
 
   <form>
   <div> DEBUG </div>
@@ -82,12 +128,12 @@
       <q-toggle v-model="accept" label="I accept the license and terms" />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Submit" type="submit" color="primary" style="max-width: 1000px"/>
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
-    </q-form>
+    
 
-  </div>
+ </q-page>
 </template>
 
 
@@ -106,6 +152,8 @@ export default {
     const accept = ref(false)
     const numero_tel = ref(null)
     const numero_contacto = ref(null)
+    const domicilio = ref(null)
+
 
     //CALENDARIO
     var today = new Date();  
@@ -123,6 +171,12 @@ export default {
       apellido,
       numero_tel,
       numero_contacto,
+      domicilio,
+      model: ref(null),
+      options: [
+        'Chacra', 'Mutual', 'Austral'
+      ],
+
 
       //CALENDARIO
       splitterModel: ref(50),
