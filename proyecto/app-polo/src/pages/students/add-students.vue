@@ -1,50 +1,55 @@
 <template>
-  <q-page class="q-pa-xl" style="max-width: 1000px">
+  <q-page class="q-pa-xl">
     <h6 class="q-my-sm">Agregar alumno</h6>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-      <div class="row">
-        <div class="col-md-5 q-pr-xl">
+      <div class="row sm-gutter">
+        <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm">
           <!-- Columna1 -->
+          <!--Documento-->
           <q-input
             filled
-            v-model="name"
-            label="Nombre"
-            hint=""
+            type="number"
+            v-model="nro_doc"
+            label="Nro Documento"
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'Complete el campo',
-              (val) => (val && val.length < 30) || 'Demasiado largo',
+              (val) =>
+                (val !== null && val !== '') ||
+                'Ingrese su número de documento',
+              (val) => val.length === 8 || 'El numero debe ser valido',
             ]"
           />
-
+          <!-- Apellido -->
           <q-input
             filled
             v-model="apellido"
             label="Apellido"
             hint=""
             lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Complete el campo']"
-          />
-
-          <q-input
-            filled
-            type="number"
-            v-model="age"
-            label="DNI"
-            lazy-rules
             :rules="[
-              (val) =>
-                (val !== null && val !== '') || 'Ingrese el numero de DNI',
-              (val) => val.length === 8 || 'El numero debe ser valido',
+              (val) => (val && val.length > 0) || 'Debe ingresar su apellido',
             ]"
           />
-
+          <!-- Nombre -->
+          <q-input
+            filled
+            v-model="nombre"
+            label="Nombre"
+            hint=""
+            lazy-rules
+            :rules="[
+              (val) => (val && val.length > 0) || 'Debe ingresar su nombre',
+              (val) => (val && val.length < 30) || 'Demasiado largo',
+            ]"
+          />
+          <!-- Fecha Nacimiento -->
           <q-input
             filled
             v-model="date"
             mask="date"
+            label="Fecha Nacimiento"
             :rules="['date']"
-            hint="Fecha de nacimiento"
+            hint=""
           >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -64,26 +69,34 @@
             </template>
           </q-input>
         </div>
-        <div class="col-md-5 q-pl-sm">
-          <!-- Columna2 -->
-          <q-input
-            filled
-            v-model="numero_tel"
-            type="number"
-            label="Numero de telefono"
-            hint=""
-            lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Complete el campo']"
-          />
 
+        <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm">
+          <!-- Columna2 -->
+          <!-- email -->
           <q-input
             filled
-            v-model="numero_contacto"
-            type="number"
-            label="Numero de contacto en caso de emergencia"
+            v-model="email"
+            type="email"
+            label="Mail"
             hint=""
             lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Complete el campo']"
+            :rules="[
+              (val) =>
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) ||
+                'Debe ingresar un mail valido',
+            ]"
+          />
+          <q-input
+            filled
+            v-model="celular"
+            type="number"
+            label="Celular"
+            hint=""
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || 'Debe ingresar un nro de celular',
+            ]"
           />
 
           <q-input
@@ -92,20 +105,22 @@
             label="Domicilio"
             hint=""
             lazy-rules
-            :rules="[(val) => (val && val.length > 0) || 'Complete el campo']"
+            :rules="[
+              (val) => (val && val.length > 0) || 'Debe ingresar un domicilio',
+            ]"
           />
 
-          <q-select filled v-model="model" :options="options" label="Barrio" />
+          <q-select
+            filled
+            v-model="barrio"
+            :options="listaBarrios"
+            label="Barrio"
+            :rules="[(val) => val !== null || 'Debe seleccionar un barrio']"
+          />
         </div>
       </div>
 
-      <div>DEBUG</div>
-      <div>La fecha de nacimiento ingresada es: {{ date }}</div>
-      <div>El curso seleccionado es: {{ $route.params.idAlumno }}</div>
-      <div>El curso seleccionado es: {{ $route.params.idCurso }}</div>
-      <div>date es: {{ date }}</div>
-
-      <q-toggle v-model="accept" label="I accept the license and terms" />
+      <q-toggle v-model="accept" label="Acepta la inscripción" />
 
       <div>
         <q-btn
@@ -135,14 +150,14 @@ export default {
     const $q = useQuasar();
 
     //FORMULARIOS
-    const name = ref(null);
+    const nro_doc = ref(null);
     const apellido = ref(null);
-    const age = ref(null);
-    const accept = ref(false);
-    const numero_tel = ref(null);
-    const numero_contacto = ref(null);
+    const nombre = ref(null);
+    const email = ref(null);
+    const celular = ref(null);
     const domicilio = ref(null);
-
+    const barrio = ref(null);
+    const accept = ref(false);
     //CALENDARIO
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
@@ -153,18 +168,19 @@ export default {
 
     return {
       //FORMULARIOS
-      name,
-      age,
-      accept,
+      nro_doc,
       apellido,
-      numero_tel,
-      numero_contacto,
+      nombre,
+      date: ref(today),
+      email,
+      celular,
       domicilio,
-      model: ref(null),
-      options: ["Chacra", "Mutual", "Austral"],
+
+      barrio: ref(null),
+      listaBarrios: ["Chacra", "Mutual", "Austral"],
       //CALENDARIO
       splitterModel: ref(50),
-      date: ref(today),
+      accept,
 
       onSubmit() {
         if (accept.value !== true) {
@@ -185,8 +201,14 @@ export default {
       },
 
       onReset() {
-        name.value = null;
-        age.value = null;
+        nro_doc.value = null;
+        apellido.value = null;
+        nombre.value = null;
+        date.value = today;
+        email.value = null;
+        celular.value = null;
+        domicilio.value = null;
+        barrio.value = null;
         accept.value = false;
       },
     };
