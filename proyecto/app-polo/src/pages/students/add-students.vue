@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-xl">
-    <h6 class="q-my-sm">Agregar alumno</h6>
+    <h6 class="q-my-sm">Agregar alumno {{ $route.params.idCurso }}</h6>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <div class="row sm-gutter">
         <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm">
@@ -144,13 +144,15 @@
 <script>
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   setup() {
     const $q = useQuasar();
+    const route = useRoute();
 
     //FORMULARIOS
-    const nro_doc = ref(null);
+    const nro_doc = ref(route.params.idAlumno);
     const apellido = ref(null);
     const nombre = ref(null);
     const email = ref(null);
