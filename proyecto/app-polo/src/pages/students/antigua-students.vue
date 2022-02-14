@@ -1,21 +1,23 @@
 <template>
-  <q-page>
-  
-    <div class="row q-col-gutter-sm q-ma-xs" >
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <q-card>
-          <q-card-section>
-            <q-form
-              class="q-gutter-md"
-            >
+  <q-page class="q-pa-xl" style="max-width: 500px">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+     <q-card class="my-card">
+      <q-card-section class="col-5 flex flex-center">
+      
+                <div class="text-caption text-grey">Ingrese los campos para registrar al alumno</div>
+                  </q-card-section>
+        </q-card>
+      </div>
+      <q-separator/>
 
-            <!-- comienza card1 -->
-
-                  <div class="text-h6">Agregar Alumno</div>
+       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <q-card class="my-card">
+      <q-card-section>
+      <div class="text-h6">Datos Alumnos</div>
       <div class="text-caption text-grey">Ingrese los campos para registrar al alumno</div>
-
-
+      <!-- comienza card -->
       <q-input
+        
         filled
         v-model="name"
         label="Nombre"
@@ -66,6 +68,9 @@
 
 
 
+
+      <!-- Columna2 -->
+
       <q-input
         filled
         v-model="numero_tel"
@@ -100,61 +105,60 @@
         :rules="[ val => val && val.length > 0 || 'Complete el campo']"
       />
 
+
       <q-select filled v-model="model" :options="options" label="Barrio" />
-              <div>
-             <q-card-section class="col-5 flex flex-center">
-                          <q-btn align="around" class="btn-fixed-width" color="blue-5" label="Agregar" icon="note_add" />
+
+
             </q-card-section>
-              </div>
-
-
-            </q-form>
-          </q-card-section>
         </q-card>
+
       </div>
 
 
-<!-- comienza card2 -->
-   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <q-card class="my-card" flat bordered>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Perfil</div>
-              <div class="text-h5 q-mt-sm q-mb-xs">{{ name }} {{  apellido }}</div>
-              
-               <div class="text-caption text-grey"> Edad: {{ date }}  </div>
-               <div class="text-caption text-grey"> Telefono: {{ numero_tel }} </div>
-               <div class="text-caption text-grey"> Telefono URGENCIAS: {{ numero_contacto }}  </div>
-               <div class="text-caption text-grey"> Vive en: {{ domicilio }} , Barrio  </div>
 
-              
-            </q-card-section>
+      
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
 
-            <q-card-section class="col-5 flex flex-center">
-              <q-img
-                class="rounded-borders"
-                src="https://cdn.quasar.dev/img/boy-avatar.png"
-              />
-            </q-card-section>
-          </q-card-section>
+      class="q-gutter-md"
+    >
 
-          <q-separator/>
 
-          <q-card-section>
-            Esta es una previsualisacion del perfil que se generaria
-          </q-card-section>
-        </q-card>
+    
+
+
+
+
+
+
+
+
+  
+</q-form>
+
+
+
+  <form>
+  <div> DEBUG </div>
+  <div> La fecha de nacimiento ingresada es: {{ date }} </div>
+  <div> El curso seleccionado es: {{ $route.params.idAlumno }} </div>
+  <div> El curso seleccionado es: {{ $route.params.idCurso }} </div>
+  <div> date es:  {{ date }} </div>
+  </form>
+
+      <q-toggle v-model="accept" label="I accept the license and terms" />
+
+      <div>
+        <q-btn label="Submit" type="submit" color="primary" style="max-width: 1000px"/>
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
+    
 
 
-    </div>
-
-
-
-
-
-  </q-page>
+ </q-page>
 </template>
+
 
 <script>
 import { useQuasar } from 'quasar'
@@ -231,6 +235,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>
