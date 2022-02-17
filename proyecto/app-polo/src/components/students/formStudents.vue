@@ -1,121 +1,118 @@
 <template>
   <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-    <div class="row sm-gutter">
-      <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm">
-        <!-- Columna1 -->
-        <!--Documento-->
-        <q-input
-          filled
-          type="number"
-          v-model="nro_doc"
-          label="Nro Documento"
-          lazy-rules
-          :rules="[
-            (val) =>
-              (val !== null && val !== '') || 'Ingrese su número de documento',
-            (val) => val.length === 8 || 'El numero debe ser valido',
-          ]"
-        />
-        <!-- Apellido -->
-        <q-input
-          filled
-          v-model="apellido"
-          label="Apellido"
-          hint=""
-          lazy-rules
-          :rules="[
-            (val) => (val && val.length > 0) || 'Debe ingresar su apellido',
-          ]"
-        />
-        <!-- Nombre -->
-        <q-input
-          filled
-          v-model="nombre"
-          label="Nombre"
-          hint=""
-          lazy-rules
-          :rules="[
-            (val) => (val && val.length > 0) || 'Debe ingresar su nombre',
-            (val) => (val && val.length < 30) || 'Demasiado largo',
-          ]"
-        />
-        <!-- Fecha Nacimiento -->
-        <q-input
-          filled
-          v-model="date"
-          mask="date"
-          label="Fecha Nacimiento"
-          :rules="['date']"
-          hint=""
-        >
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy
-                ref="qDateProxy"
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <q-date v-model="date">
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </div>
+    <!--     <div class="row sm-gutter">
+      <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm"> -->
+    <!-- Columna1 -->
+    <!--Documento-->
+    <q-input
+      filled
+      type="number"
+      v-model="nro_doc"
+      label="Nro Documento"
+      lazy-rules
+      :rules="[
+        (val) =>
+          (val !== null && val !== '') || 'Ingrese su número de documento',
+        (val) => val.length === 8 || 'El numero debe ser valido',
+      ]"
+    />
+    <!-- Apellido -->
+    <q-input
+      filled
+      v-model="apellido"
+      label="Apellido"
+      hint=""
+      lazy-rules
+      :rules="[(val) => (val && val.length > 0) || 'Debe ingresar su apellido']"
+    />
+    <!-- Nombre -->
+    <q-input
+      filled
+      v-model="nombre"
+      label="Nombre"
+      hint=""
+      lazy-rules
+      :rules="[
+        (val) => (val && val.length > 0) || 'Debe ingresar su nombre',
+        (val) => (val && val.length < 30) || 'Demasiado largo',
+      ]"
+    />
+    <!-- Fecha Nacimiento -->
+    <q-input
+      filled
+      v-model="date"
+      mask="date"
+      label="Fecha Nacimiento"
+      :rules="['date']"
+      hint=""
+    >
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy
+            ref="qDateProxy"
+            cover
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            <q-date v-model="date">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+    <!--     </div> -->
 
-      <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm">
-        <!-- Columna2 -->
-        <!-- email -->
-        <q-input
-          filled
-          v-model="email"
-          type="email"
-          label="Mail"
-          hint=""
-          lazy-rules
-          :rules="[
-            (val) =>
-              /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) ||
-              'Debe ingresar un mail valido',
-          ]"
-        />
-        <q-input
-          filled
-          v-model="celular"
-          type="number"
-          label="Celular"
-          hint=""
-          lazy-rules
-          :rules="[
-            (val) =>
-              (val && val.length > 0) || 'Debe ingresar un nro de celular',
-          ]"
-        />
+    <!--  <div class="col-12 col-sm-6 q-gutter-sm q-col-gutter-sm"> -->
+    <!-- Columna2 -->
+    <!-- email -->
+    <q-input
+      filled
+      v-model="email"
+      type="email"
+      label="Mail"
+      hint=""
+      lazy-rules
+      :rules="[
+        (val) =>
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) ||
+          'Debe ingresar un mail valido',
+      ]"
+    />
+    <q-input
+      filled
+      v-model="celular"
+      type="number"
+      label="Celular"
+      hint=""
+      lazy-rules
+      :rules="[
+        (val) => (val && val.length > 0) || 'Debe ingresar un nro de celular',
+      ]"
+    />
 
-        <q-input
-          filled
-          v-model="domicilio"
-          label="Domicilio"
-          hint=""
-          lazy-rules
-          :rules="[
-            (val) => (val && val.length > 0) || 'Debe ingresar un domicilio',
-          ]"
-        />
+    <q-input
+      filled
+      v-model="domicilio"
+      label="Domicilio"
+      hint=""
+      lazy-rules
+      :rules="[
+        (val) => (val && val.length > 0) || 'Debe ingresar un domicilio',
+      ]"
+    />
 
-        <q-select
-          filled
-          v-model="barrio"
-          :options="listaBarrios"
-          label="Barrio"
-          :rules="[(val) => val !== null || 'Debe seleccionar un barrio']"
-        />
-      </div>
-    </div>
+    <q-select
+      filled
+      v-model="barrio"
+      :options="listaBarrios"
+      label="Barrio"
+      :rules="[(val) => val !== null || 'Debe seleccionar un barrio']"
+    />
+    <!--       </div>
+    </div> -->
 
     <q-toggle v-model="accept" label="Acepta la inscripción" />
 
