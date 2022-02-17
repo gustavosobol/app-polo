@@ -8,9 +8,6 @@
 </template>
 
 <script>
-import { useQuasar } from "quasar";
-import { ref } from "vue";
-import { useRoute } from "vue-router";
 import formStudents from "components/students/formStudents.vue";
 
 export default {
