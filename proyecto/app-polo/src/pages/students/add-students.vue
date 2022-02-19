@@ -136,7 +136,7 @@
       </div>
 
       <!-- comienza card2 -->
-      <Perfil :title="name" :apellido="apellido" />
+      <Perfil :title="name" :apellido="apellido" :name="name"/>
     </div>
   </q-page>
 </template>

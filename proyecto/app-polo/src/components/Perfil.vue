@@ -16,13 +16,13 @@
           <div class="text-caption text-grey">
             Vive en: {{ domicilio }} , Barrio
           </div>
+          <q-btn color="primary" label="QR" @click="generateQrCode()" size="xl" id="qr-button"/>
+          <div><canvas id="qr-code"></canvas></div>
         </q-card-section>
 
         <q-card-section class="col-5 flex flex-center">
-          <q-img
-            class="rounded-borders"
-            src="https://cdn.quasar.dev/img/boy-avatar.png"
-          />
+             <!-- aca iria imagen de perfil -->
+            
         </q-card-section>
       </q-card-section>
 
@@ -36,8 +36,24 @@
 </template>
 <script>
 import { defineComponent } from "vue";
+import QRious from "qrious";
 
 export default defineComponent({
+  methods:{
+    generateQrCode: function(){
+    if (this.name != "" && this.name != "\n" && this.name != null) {
+        console.log(this.name)
+        new QRious({
+                level: "H",
+                padding: 25,
+                size: 300,
+                element: document.getElementById("qr-code"),
+                value: this.nombre,
+              });
+          }
+    }
+
+  },
   props: {
     title: {
       type: String,
@@ -47,6 +63,11 @@ export default defineComponent({
       type: String,
       default: "Apellido",
     },
+    name: {
+      type: String,
+      default: "",
+    },
+    
   },
 
   /*   setup() {
