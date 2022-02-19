@@ -79,7 +79,7 @@
       filled
       v-model="email"
       type="email"
-      label="Correo electronico"
+      label="Correo"
       hint=""
       lazy-rules
       :rules="[
@@ -310,3 +310,5 @@ export default {
 }
 
 </style>
+
+
