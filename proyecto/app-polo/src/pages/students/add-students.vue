@@ -12,7 +12,6 @@
                 Ingrese los campos para registrar al alumno
               </div>
 
-<<<<<<< HEAD
               <q-input
                 filled
                 v-model="name"
@@ -131,55 +130,13 @@
                   />
                 </q-card-section>
               </div>
-=======
-              <InputsFormulario />
->>>>>>> 878a392586f4248769f295e0950bcac82be87340
             </q-form>
           </q-card-section>
         </q-card>
       </div>
 
       <!-- comienza card2 -->
-<<<<<<< HEAD
       <Perfil :title="name" :apellido="apellido" />
-=======
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <q-card class="my-card" flat bordered>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Perfil</div>
-              <div class="text-h5 q-mt-sm q-mb-xs">
-                {{ name }} {{ apellido }}
-              </div>
-
-              <div class="text-caption text-grey">Edad: {{ date }}</div>
-              <div class="text-caption text-grey">
-                Telefono: {{ numero_tel }}
-              </div>
-              <div class="text-caption text-grey">
-                Telefono URGENCIAS: {{ numero_contacto }}
-              </div>
-              <div class="text-caption text-grey">
-                Vive en: {{ domicilio }} , Barrio
-              </div>
-            </q-card-section>
-
-            <q-card-section class="col-5 flex flex-center">
-              <q-img
-                class="rounded-borders"
-                src="https://cdn.quasar.dev/img/boy-avatar.png"
-              />
-            </q-card-section>
-          </q-card-section>
-
-          <q-separator />
-
-          <q-card-section>
-            Esta es una previsualisacion del perfil que se generaria
-          </q-card-section>
-        </q-card>
-      </div>
->>>>>>> 878a392586f4248769f295e0950bcac82be87340
     </div>
   </q-page>
 </template>
@@ -187,7 +144,6 @@
 <script>
 import { useQuasar } from "quasar";
 import { ref } from "vue";
-<<<<<<< HEAD
 import Perfil from "components/Perfil.vue";
 
 export default {
@@ -254,17 +210,6 @@ export default {
         accept.value = false;
       },
     };
-=======
-import { useRoute } from "vue-router";
-import InputsFormulario from "../../components/inputs-formulario.vue";
-
-export default {
-  components: {
-    InputsFormulario,
-  },
-  setup() {
-    return {};
->>>>>>> 878a392586f4248769f295e0950bcac82be87340
   },
 };
 </script>
