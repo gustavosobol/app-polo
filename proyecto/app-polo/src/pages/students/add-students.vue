@@ -2,7 +2,7 @@
   <q-page class="q-pa-xl">
     <q-img src="~assets/fondo.jpg" class="wave"/>
 
-  <div class="row q-col-gutter-sm q-ma-xs" :style="image" >
+  <div class="row q-col-gutter-sm q-ma-xs" >
     <!-- Columna1 -->
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
@@ -180,6 +180,26 @@
     </q-card>
   </div>
     </div>
+
+
+
+    <q-btn label="Confirm" color="primary" @click="confirm = true" />
+
+    <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="question_mark" color="primary" text-color="white"  />
+          <span class="q-ml-sm">¿Desea confirmar su inscripcion?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          <q-btn flat label="Confirmar" color="primary" v-close-popup @click="onSubmit" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+
   </q-page>
 </template>
 
@@ -227,6 +247,10 @@ export default {
     const domicilio = ref(null);
     const barrio = ref(null);
     const accept = ref(false);
+    const numero_tel = ref(false);
+    const numero_contacto = ref(false);
+    const title = ref(null);
+
     //CALENDARIO
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
@@ -238,6 +262,10 @@ export default {
     return {
       //FORMULARIOS
       isHidden:false,
+
+      title,
+      numero_tel,
+      numero_contacto,
       nro_doc,
       apellido,
       nombre,
@@ -245,6 +273,7 @@ export default {
       email,
       celular,
       domicilio,
+      confirm: ref(false),
 
       barrio: ref(null),
       listaBarrios: ["Chacra", "Mutual", "Austral"],
@@ -253,6 +282,10 @@ export default {
       accept,
 
       onSubmit() {
+        console.log('aaaaaaaaaaaaaaaaaa')
+        confirm = true
+        console.log(confirm)
+
         if (accept.value !== true) {
           $q.notify({
             color: "red-5",
@@ -261,6 +294,9 @@ export default {
             message: "You need to accept the license and terms first",
           });
         } else {
+          
+
+
           $q.notify({
             color: "green-4",
             textColor: "white",
