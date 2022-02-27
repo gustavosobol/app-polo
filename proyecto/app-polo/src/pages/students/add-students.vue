@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-xl">
-    <q-img src="~assets/fondo.jpg" class="wave"/>
+    <q-img src="~assets/descarga.png" class="wave"/>
 
   <div class="row q-col-gutter-sm q-ma-xs" >
     <!-- Columna1 -->
@@ -50,7 +50,7 @@
     <q-input
       filled
       v-model="date"
-      mask="date"
+      
       label="Fecha Nacimiento"
       :rules="['date']"
       hint=""
@@ -63,7 +63,7 @@
             transition-show="scale"
             transition-hide="scale"
           >
-            <q-date v-model="date">
+            <q-date v-model="date" mask="MM-DD-YYYY">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
@@ -183,9 +183,9 @@
 
 
 
-    <q-btn label="Confirm" color="primary" @click="confirm = true" />
+    <q-btn label="Confirm" color="primary" @click="dialog = true" />
 
-    <q-dialog v-model="confirm" persistent>
+    <q-dialog v-model="dialog" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="question_mark" color="primary" text-color="white"  />
@@ -194,7 +194,7 @@
 
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
-          <q-btn flat label="Confirmar" color="primary" v-close-popup @click="onSubmit" />
+          <q-btn flat label="Confirmar" color="primary" v-close-popup @click="confirmado" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -213,6 +213,7 @@ import QRious from "qrious";
 
 
 export default {
+    
     methods:{
     generateQrCode: function(){
     
@@ -250,14 +251,19 @@ export default {
     const numero_tel = ref(false);
     const numero_contacto = ref(false);
     const title = ref(null);
+    const dialog = ref(false)
 
     //CALENDARIO
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
+    var yyyy = String(today.getFullYear()).padStart(2, "0");
 
-    today = yyyy + "/" + mm + "/" + dd;
+    //today.setMonth = mm;
+    //today.setFullYear = yyyy;
+    //today.setDate = dd;
+    //today = yyyy + "/" + mm + "/" + dd;
+    today = dd + "/" + mm + "/" + yyyy;
 
     return {
       //FORMULARIOS
@@ -273,19 +279,17 @@ export default {
       email,
       celular,
       domicilio,
-      confirm: ref(false),
+      dialog,
 
       barrio: ref(null),
       listaBarrios: ["Chacra", "Mutual", "Austral"],
       //CALENDARIO
       splitterModel: ref(50),
       accept,
+      
 
       onSubmit() {
-        console.log('aaaaaaaaaaaaaaaaaa')
-        confirm = true
-        console.log(confirm)
-
+        $q.dark.toggle()
         if (accept.value !== true) {
           $q.notify({
             color: "red-5",
@@ -294,16 +298,17 @@ export default {
             message: "You need to accept the license and terms first",
           });
         } else {
-          
+            dialog.value = true
+        }
+      },
 
-
-          $q.notify({
+      confirmado(){
+            $q.notify({
             color: "green-4",
             textColor: "white",
             icon: "cloud_done",
             message: "Submitted",
           });
-        }
       },
 
       onReset() {
