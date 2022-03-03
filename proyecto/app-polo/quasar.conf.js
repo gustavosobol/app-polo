@@ -87,7 +87,8 @@ module.exports = configure(function (ctx) {
       
       lang: 'es',
       plugins: [
-        'Notify'
+        'Notify',
+        'Dialog'
       ],
       config: {
         notify: { /* look at QuasarConfOptions from the API card */ }

@@ -203,6 +203,28 @@
         </q-card>
       </div>
     </div>
+
+    <q-btn label="Confirm" color="primary" @click="dialog = true" />
+
+    <q-dialog v-model="dialog" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="question_mark" color="primary" text-color="white" />
+          <span class="q-ml-sm">¿Desea confirmar su inscripcion?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          <q-btn
+            flat
+            label="Confirmar"
+            color="primary"
+            v-close-popup
+            @click="confirmado"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -243,13 +265,22 @@ export default {
     const domicilio = ref(null);
     const barrio = ref(null);
     const accept = ref(false);
+    const numero_tel = ref(false);
+    const numero_contacto = ref(false);
+    const title = ref(null);
+    const dialog = ref(false);
+
     //CALENDARIO
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
+    var yyyy = String(today.getFullYear()).padStart(2, "0");
 
-    today = yyyy + "/" + mm + "/" + dd;
+    //today.setMonth = mm;
+    //today.setFullYear = yyyy;
+    //today.setDate = dd;
+    //today = yyyy + "/" + mm + "/" + dd;
+    today = dd + "/" + mm + "/" + yyyy;
 
     return {
       //FORMULARIOS
@@ -261,6 +292,7 @@ export default {
       email,
       celular,
       domicilio,
+      dialog,
 
       barrio: ref(null),
       listaBarrios: ["Chacra", "Mutual", "Austral"],
@@ -269,6 +301,7 @@ export default {
       accept,
 
       onSubmit() {
+        $q.dark.toggle();
         if (accept.value !== true) {
           $q.notify({
             color: "red-5",
@@ -277,13 +310,17 @@ export default {
             message: "You need to accept the license and terms first",
           });
         } else {
-          $q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Submitted",
-          });
+          dialog.value = true;
         }
+      },
+
+      confirmado() {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Submitted",
+        });
       },
 
       onReset() {
