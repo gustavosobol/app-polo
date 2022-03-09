@@ -1,0 +1,107 @@
+version: "3"
+services:
+  serv-front:
+    build: .
+    container_name: app-polo
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - app-vol:/app-polo
+    #command: npm install
+    command: quasar dev
+    networks:
+      polo:
+        ipv4_address: 192.168.200.2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+  serv-postgres:
+    container_name: postgres
+    image: postgres:13
+    #command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+    restart: always
+    environment:
+      POSTGRES_USER: ${USER_POSTGRES}
+      POSTGRES_PASSWORD: ${PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+    networks:
+      polo:
+        ipv4_address: 192.168.200.3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+  serv-postgrest:
+    restart: always
+    image: postgrest/postgrest
+    container_name: postgrest
+    ##    links:
+    ##      - serv-postgres:serv-postgres
+    ports:
+      - "3000:3000"
+    environment:
+      #      PGRST_DB_URI: postgres://postgres:gjs200182@serv-postgres:5432/polo
+      PGRST_DB_URI: ${DATABASE_URL}
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: ${ROLE} #In production this role should not be the same as the one used for the connection
+      PGRST_SERVER_PROXY_URI: ${SERVER_PROXY}
+    networks:
+      polo:
+        ipv4_address: 192.168.200.4
+    depends_on:
+      - serv-postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+  serv-pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    volumes:
+      - pgadmin-vol:/var/lib/pgadmin/storage
+    depends_on:
+      - serv-postgres
+    ports:
+      - 5050:80
+    networks:
+      polo:
+        ipv4_address: 192.168.200.5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+volumes:
+  app-vol:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$PWD/proyecto/app-polo"
+  postgres-vol:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$PWD/postgres/datos"
+  pgadmin-vol:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$PWD/postgres/pgadmin"
+networks:
+  polo:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.200.0/24
