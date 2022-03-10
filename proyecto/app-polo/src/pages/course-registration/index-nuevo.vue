@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md">
+    <pre>tabla {{ rows }}</pre>
     <q-dialog v-model="prompt" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -73,7 +74,11 @@
         <q-tr :props="props">
           <q-th auto-width />
           <q-th auto-width />
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.nombreMostrar"
+            :props="props"
+          >
             {{ col.label }}
           </q-th>
         </q-tr>
@@ -99,17 +104,23 @@
               glossy
               text-color="black"
               icon="school"
-              @click="(prompt = true), (actual = String(props.row.nombre))"
+              @click="
+                (prompt = true), (actual = String(props.row.nombreMostrar))
+              "
             />
           </q-td>
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+          <q-td
+            v-for="col in props.cols"
+            :key="col.nombreMostrar"
+            :props="props"
+          >
             {{ col.value }}
           </q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="text-left">
-              Localidad: {{ props.row.localidadNombre }}
+              Localidad: {{ props.row.LocalidadOnCurso }}
             </div>
             <div class="text-left">
               Descripcion: {{ props.row.descripcion }}
@@ -124,13 +135,6 @@
 <script>
 import { ref, onMounted } from "vue";
 
-/* "activo":true,
-"salaId":2,
-"cursoId":2,"localidadId":2,
-"LocalidadOnCurso":{"nombreMostrar":"curso 2 - Rio Grande"},
-"Salas":{"nombre":"sala2"}
-} */
-
 import { api } from "boot/axios";
 const columns = [
   { name: "id", align: "center", label: "id", field: "id", sortable: true },
@@ -144,13 +148,13 @@ const columns = [
     format: (val) => `${val.toUpperCase()}`,
     sortable: true,
   },
-  {
+  /*   {
     name: "destinatarioNombre",
     align: "center",
     label: "Edades",
     field: "destinatarioNombre",
     sortable: true,
-  },
+  }, */
   {
     name: "fechaInicio",
     label: "Inicio",
@@ -168,14 +172,14 @@ const columns = [
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
   },
   {
-    name: "localidadNombre",
+    name: "LocalidadOnCurso",
     label: "Localidad",
-    field: "localidadNombre",
+    field: "LocalidadOnCurso",
     sortable: true,
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
   },
 ];
-
+const originalRows = [];
 export default {
   setup() {
     let actual = "0";
@@ -190,7 +194,7 @@ export default {
       rowsPerPage: 10,
       rowsNumber: 10,
     });
-    const originalRows = [];
+
     function allCursos() {
       api
         .get(
@@ -209,9 +213,7 @@ export default {
           return JSON.stringify(response.data.data);
         });
     }
-    onMounted(() => {
-      allCursos();
-    });
+    ///// onMounted(() => {});
     async function callEndpoints() {
       console.log(this.$routes);
     }
@@ -225,7 +227,7 @@ export default {
             (row.nombre.toUpperCase() + row.id).includes(filter.toUpperCase())
           )
         : originalRows.slice();
-
+      console.log(`fetch`);
       // handle sortBy
       if (sortBy) {
         const sortFn =
@@ -246,6 +248,7 @@ export default {
 
     // emulate 'SELECT count(*) FROM ...WHERE...'
     function getRowsNumberCount(filter) {
+      console.log(`getRowsNumberCount`);
       if (!filter) {
         return originalRows.length;
       }
@@ -259,6 +262,8 @@ export default {
     }
 
     function onRequest(props) {
+      console.log(`onRequest`);
+
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
       const filter = props.filter;
 
@@ -300,6 +305,7 @@ export default {
     }
 
     onMounted(() => {
+      allCursos();
       // get initial data from server (1st page)
       onRequest({
         pagination: pagination.value,

@@ -7,7 +7,7 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: "http://192.168.0.122:3000/" });
+const api = axios.create({ baseURL: "http://192.168.1.45:3000/" });
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -22,3 +22,27 @@ export default boot(({ app }) => {
 });
 
 export { api };
+
+/* {"id":1,
+"nombreMostrar":"sala2 - curso 2 - Rio Grande",
+"fechaInicio":"2021-07-05",
+"fechaFin":"2021-07-24",
+"horario":"20 a 22",
+"cupos":2,
+"descripcion":"",
+"LocalidadOnCurso":{"nombreMostrar":"curso 2 - Rio Grande"},
+
+
+
+"activo":true,
+
+
+
+
+
+"salaId":2,
+
+"cursoId":2,
+"localidadId":2,
+"Salas":{"nombre":"sala2"}}
+} */
