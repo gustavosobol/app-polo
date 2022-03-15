@@ -4,7 +4,6 @@
       <q-card-section class="q-pt-xs">
         <div class="text-overline">Perfil</div>
         <div class="text-h5 q-mt-sm q-mb-xs">
-          <!-- {{ title }} - -->
           {{ nombre }}
           {{ apellido }}
         </div>

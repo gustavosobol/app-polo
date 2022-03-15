@@ -22,27 +22,3 @@ export default boot(({ app }) => {
 });
 
 export { api };
-
-/* {"id":1,
-"nombreMostrar":"sala2 - curso 2 - Rio Grande",
-"fechaInicio":"2021-07-05",
-"fechaFin":"2021-07-24",
-"horario":"20 a 22",
-"cupos":2,
-"descripcion":"",
-"LocalidadOnCurso":{"nombreMostrar":"curso 2 - Rio Grande"},
-
-
-
-"activo":true,
-
-
-
-
-
-"salaId":2,
-
-"cursoId":2,
-"localidadId":2,
-"Salas":{"nombre":"sala2"}}
-} */

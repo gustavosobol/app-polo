@@ -7,7 +7,7 @@ const routes = [
       {
         path: "alumnos",
         name: "Alumnos",
-        component: () => import("pages/students/add-students.vue"),
+        component: () => import("pages/students/index.vue"),
       },
       {
         path: "cursos",
