@@ -24,12 +24,20 @@ model Localidad {
   alumnos           Alumno[]
   salas             Salas[]
   cursos            LocalidadOnCurso[]
+  personal          Personal[]
 }
 model TipoCurso {
   id                Int                     @default(autoincrement()) @id
   nombre            String
   descripcion       String
   curso             Curso?
+  }
+
+model Turno {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  descripcion       String?
+  cursosActivos     CursosActivos[]
   }
 
 model Curso {
@@ -40,6 +48,8 @@ model Curso {
   localidad         LocalidadOnCurso[]
   tipocurso         TipoCurso?               @relation(fields: [tipoCursoId], references: [id])
   tipoCursoId       Int
+  personal          Personal               @relation(fields: [personalId], references: [id])
+  personalId       Int
 }
 model LocalidadOnCurso {
   curso             Curso                   @relation(fields: [cursoId], references: [id])
@@ -88,10 +98,25 @@ model Alumno {
   localidadId       Int
   cursoActivo       AlumnoOnCursoActivo[]
 }
-
+model Personal {
+  id                Int                     @default(autoincrement()) @id
+  nroDocumento      Int                     @unique
+  apellido          String
+  nombre            String     
+  fechaNacimiento   DateTime                @db.Date
+  email             String 
+  celular           Int
+  domicilio         String     
+  barrio            String?
+  localidad         Localidad               @relation(fields: [localidadId], references: [id])
+  localidadId       Int
+  curso             Curso[]
+}
 model Destinatarios {
   id                Int                     @default(autoincrement()) @id
   nombre            String
+  edadInicio        Int
+  edadFin           Int
   cursos            DestinatarioOnCurso[]
 }
 
@@ -121,6 +146,9 @@ model CursosActivos {
  localidadCurso     LocalidadOnCurso?       @relation(fields: [localidadId,cursoId], references: [localidadId,cursoId])
  localidadId        Int?
  cursoId            Int?
+ turno              Turno?       @relation(fields: [turnoId], references: [id])
+ turnoId        Int?
+ 
 }
 
 
