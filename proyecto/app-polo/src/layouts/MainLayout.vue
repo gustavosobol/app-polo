@@ -53,6 +53,34 @@ const linksList = [
     link: "#/alumnos/",
     target: "",
   },
+  {
+    title: "Turnos",
+    caption: "Community Quasar projects",
+    icon: "school",
+    link: "#/turnos/",
+    target: "",
+  },
+  {
+    title: "Destinatarios",
+    caption: "Community Quasar projects",
+    icon: "school",
+    link: "#/destinatarios/",
+    target: "",
+  },
+  {
+    title: "Localidades",
+    caption: "Community Quasar projects",
+    icon: "school",
+    link: "#/localidades/",
+    target: "",
+  },
+  {
+    title: "TipoCurso",
+    caption: "Community Quasar projects",
+    icon: "school",
+    link: "#/tipoCurso/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";
