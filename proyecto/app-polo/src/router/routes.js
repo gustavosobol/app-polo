@@ -15,6 +15,16 @@ const routes = [
         component: () => import("pages/course-registration/index.vue"),
       },
       {
+        path: "nuevocursos",
+        name: "NuevoCursos",
+        component: () => import("pages/curso/addCurso.vue"),
+      },
+      {
+        path: "personal",
+        name: "Personal",
+        component: () => import("pages/personal/index.vue"),
+      },
+      {
         path: "turnos",
         name: "Turnos",
         component: () => import("pages/turnos/index.vue"),
