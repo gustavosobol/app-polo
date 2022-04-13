@@ -233,10 +233,13 @@
                 <q-input type="text" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
-            <q-td key="localidad" :props="props">
-              <div class="text-pre-wrap">{{ props.row.localidad }}</div>
-              <q-popup-edit
-                v-model="props.row.localidad"
+
+            <q-td key="localidadId" :props="props">
+              <div class="text-pre-wrap">
+                {{ props.row.Localidad.nombre }}
+              </div>
+              <!--       <q-popup-edit
+                v-model="Localidad"
                 v-slot="scope"
                 title="Localidad"
                 buttons
@@ -244,12 +247,13 @@
                 label-cancel="Cancelar"
                 @save="
                   (v, iv) => {
-                    save(v, iv, props.key, 'localidad');
+                    save(v, iv, props.key, 'localidadId');
                   }
-                "
-              >
-                <q-input type="text" v-model="scope.value" dense autofocus />
-              </q-popup-edit>
+                " 
+              >  -->
+              <!--  <q-input type="text" v-model="scope.value" dense autofocus /> -->
+              <!--        <q-select v-model="scope.value" filled autofocus />
+              </q-popup-edit> -->
             </q-td>
           </q-tr>
         </template>
@@ -323,6 +327,13 @@ const columns = [
     sortable: true,
   },
   {
+    name: "barrio",
+    align: "center",
+    label: "barrio",
+    field: "barrio",
+    sortable: true,
+  },
+  {
     name: "localidadId",
     align: "center",
     label: "localidadId",
@@ -335,15 +346,17 @@ export default {
   setup() {
     const $q = useQuasar();
     const data = ref([]);
+    const localidades = ref([]);
     function returnPersonal() {
       api
-        .get("Personal", {
+        .get("Personal?select=*, Localidad(nombre)", {
           headers: {
             accept: "application/json",
           },
         })
         .then((response) => {
           data.value = response.data;
+          console.log(`data  ${JSON.stringify(data.value)}`);
         })
         .catch((error) => {
           $q.notify({
@@ -354,8 +367,31 @@ export default {
           });
         });
     }
+    function returnLocalidades() {
+      api
+        .get("Localidad", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          localidades.value = response.data;
+          console.log(`localidades  ${JSON.stringify(localidades.value)}`);
+        })
+        .catch((error) => {
+          console.log(`error ${error}`);
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
+
     onMounted(() => {
       returnPersonal();
+      returnLocalidades();
     });
     return {
       filter: ref(""),
@@ -412,6 +448,7 @@ export default {
       columns,
       rows: ref(data),
       data,
+      localidades,
       confirm: ref(false),
       verturno: ref(false),
       toolbar: ref(false),
