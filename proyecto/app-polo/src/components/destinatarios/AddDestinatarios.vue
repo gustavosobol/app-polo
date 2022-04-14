@@ -61,7 +61,7 @@ import { ref, defineComponent } from "vue";
 import { api } from "boot/axios";
 import { useQuasar } from "quasar";
 export default defineComponent({
-  name: "AddProduct",
+  name: "AddDestinatarios",
   setup() {
     const $q = useQuasar();
     const nombre = ref(null);

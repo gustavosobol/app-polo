@@ -88,6 +88,13 @@ const linksList = [
     link: "#/personal/",
     target: "",
   },
+  {
+    title: "Curso Detalle",
+    caption: "Carga de Cursos",
+    icon: "school",
+    link: "#/CursoDetalle/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";
