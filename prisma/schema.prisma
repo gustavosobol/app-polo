@@ -1,9 +1,9 @@
 //ingresar al contenedor 
 // docker run -it -v $PWD:/home/prisma node:17-alpine3.15 sh
 // moverse a la carpta
-// cd /home/prisma
+// cd /home/prisma/prisma
 // ejecutar comando para actualizar base de datos
-//npx prisma migrate dev --name nombre_de_la_modificacion
+// npx prisma migrate dev --name nombre_de_la_modificacion
 
 // This is your Prisma schema file,1
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
@@ -29,7 +29,7 @@ model Localidad {
 model TipoCurso {
   id                Int                     @default(autoincrement()) @id
   nombre            String
-  descripcion       String
+  descripcion       String?
   curso             Curso?
   }
 
@@ -43,7 +43,7 @@ model Turno {
 model Curso {
   id                Int                     @default(autoincrement()) @id
   nombre            String
-  descripcion       String
+  descripcion       String?
   destinatatios     DestinatarioOnCurso[]
   localidad         LocalidadOnCurso[]
   tipocurso         TipoCurso?               @relation(fields: [tipoCursoId], references: [id])
@@ -57,7 +57,7 @@ model LocalidadOnCurso {
   localidad         Localidad               @relation(fields: [localidadId], references: [id])
   localidadId       Int
   nombreMostrar     String
-  descripcion       String
+  descripcion       String?
   @@id([cursoId, localidadId])
   cursosActivos     CursosActivos[]
  // cursoActivo       CursosActivos?               @relation(fields: [cursoActivoId], references: [id])
@@ -70,7 +70,7 @@ model DestinatarioOnCurso {
   destinatario      Destinatarios           @relation(fields: [destinatarioId], references: [id])
   destinatarioId       Int
   @@id([cursoId, destinatarioId])
-  descripcion       String
+  descripcion       String?
   nombreMostrar     String
 }
 
@@ -80,7 +80,7 @@ model AlumnoOnCursoActivo {
   alumno            Alumno                  @relation(fields: [alumnoId], references: [id])
   alumnoId          Int
   @@id([cursoActivoId, alumnoId])
-  descripcion       String
+  descripcion       String?
   nombreMostrar     String
 }
 
@@ -124,7 +124,7 @@ model Destinatarios {
 model Salas {
   id                Int                     @default(autoincrement()) @id
   nombre            String
-  descripcion       String
+  descripcion       String?
   localidad         Localidad               @relation(fields: [localidadId], references: [id])
   localidadId       Int
   cursosActivos     CursosActivos?
@@ -138,7 +138,7 @@ model CursosActivos {
   fechaFin          DateTime                @db.Date
   horario           String
   cupos             Int
-  descripcion       String
+  descripcion       String?
   sala              Salas?                  @relation(fields: [salaId], references: [id])
   salaId            Int?
   alumnos           AlumnoOnCursoActivo[]

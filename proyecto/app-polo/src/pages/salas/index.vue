@@ -7,7 +7,7 @@
           <q-btn color="purple" round dense icon="close" v-close-popup />
         </q-toolbar>
         <q-card-section>
-          <add-curso-detalle />
+          <add-salas />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -43,7 +43,7 @@
       />
 
       <q-table
-        title="Curso Detalle"
+        title="Salas"
         :rows="rows"
         :columns="columns"
         row-key="id"
@@ -51,7 +51,7 @@
         binary-state-sort
       >
         <template v-slot:top>
-          <div class="col-2 q-table__title">Curso Detalle</div>
+          <div class="col-2 q-table__title">Salas</div>
           <q-space />
           <q-input
             borderless
@@ -124,14 +124,9 @@
                 <q-input type="text" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
-            <q-td key="tipoCursoId" :props="props">
+            <q-td key="localidadId" :props="props">
               <div class="text-pre-wrap">
-                {{ props.row.TipoCurso.nombre }}
-              </div>
-            </q-td>
-            <q-td key="personalId" :props="props">
-              <div class="text-pre-wrap">
-                {{ props.row.Personal.apellido }}
+                {{ props.row.Localidad.nombre }}
               </div>
             </q-td>
           </q-tr>
@@ -144,7 +139,7 @@
 import { api } from "boot/axios";
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import AddCursoDetalle from "../../components/cursoDetalle/AddCursoDetalle.vue";
+import AddSalas from "../../components/salas/AddSalas.vue";
 
 const columns = [
   {
@@ -171,17 +166,10 @@ const columns = [
     sortable: true,
   },
   {
-    name: "tipoCursoId",
+    name: "localidadId",
     align: "center",
-    label: "Tipo Curso",
-    field: "tipoCursoId",
-    sortable: true,
-  },
-  {
-    name: "personalId",
-    align: "center",
-    label: "Profesor",
-    field: "personalId",
+    label: "Localidad",
+    field: "localidadId",
     sortable: true,
   },
 ];
@@ -190,9 +178,9 @@ export default {
   setup() {
     const $q = useQuasar();
     const data = ref([]);
-    function returnCurso() {
+    function returnSala() {
       api
-        .get("Curso?select=*, TipoCurso(nombre),Personal(apellido)", {
+        .get("Salas?select=*, Localidad(nombre)", {
           headers: {
             accept: "application/json",
           },
@@ -210,14 +198,14 @@ export default {
         });
     }
     onMounted(() => {
-      returnCurso();
+      returnSala();
     });
     return {
       filter: ref(""),
       save(value, initialValue, id, field) {
-        const curso = `{ "${field}": "${value}"  }`;
+        const sala = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Curso?id=eq.${id}`, JSON.parse(curso), {
+          .patch(`Salas?id=eq.${id}`, JSON.parse(sala), {
             headers: {
               accept: "application/json",
             },
@@ -241,7 +229,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Curso?id=eq.${id}`, {
+          .delete(`Salas?id=eq.${id}`, {
             headers: {
               accept: "application/json",
             },
@@ -250,10 +238,10 @@ export default {
             $q.notify({
               color: "positive",
               position: "bottom",
-              message: `Se elimino el usuario id: ${this.idelim.value} correctamente`,
+              message: `Se elimino el sala id: ${this.idelim.value} correctamente`,
               icon: "mood",
             });
-            returnCurso();
+            returnLocalidades();
           })
           .catch((error) => {
             $q.notify({
@@ -272,6 +260,6 @@ export default {
       idelim: ref(0),
     };
   },
-  components: { AddCursoDetalle },
+  components: { AddSalas },
 };
 </script>
