@@ -102,6 +102,13 @@ const linksList = [
     link: "#/Salas/",
     target: "",
   },
+  {
+    title: "Destinatario Curso",
+    caption: "Carga Salas",
+    icon: "school",
+    link: "#/destinatario-curso/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";
