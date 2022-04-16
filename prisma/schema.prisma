@@ -46,15 +46,15 @@ model Curso {
   descripcion       String?
   destinatatios     DestinatarioOnCurso[]
   localidad         LocalidadOnCurso[]
-  tipocurso         TipoCurso?               @relation(fields: [tipoCursoId], references: [id])
+  tipocurso         TipoCurso               @relation(fields: [tipoCursoId], references: [id], onDelete: NoAction)
   tipoCursoId       Int
-  personal          Personal               @relation(fields: [personalId], references: [id])
+  personal          Personal               @relation(fields: [personalId], references: [id], onDelete: NoAction)
   personalId        Int
 }
 model LocalidadOnCurso {
-  curso             Curso                   @relation(fields: [cursoId], references: [id])
+  curso             Curso                   @relation(fields: [cursoId], references: [id], onDelete: NoAction)
   cursoId           Int
-  localidad         Localidad               @relation(fields: [localidadId], references: [id])
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
   nombreMostrar     String
   descripcion       String?
@@ -65,9 +65,9 @@ model LocalidadOnCurso {
   
 }
 model DestinatarioOnCurso {
-  curso             Curso                   @relation(fields: [cursoId], references: [id])
+  curso             Curso                   @relation(fields: [cursoId], references: [id], onDelete: NoAction)
   cursoId           Int
-  destinatario      Destinatarios           @relation(fields: [destinatarioId], references: [id])
+  destinatario      Destinatarios           @relation(fields: [destinatarioId], references: [id], onDelete: NoAction)
   destinatarioId       Int
   @@id([cursoId, destinatarioId])
   descripcion       String?
@@ -75,9 +75,9 @@ model DestinatarioOnCurso {
 }
 
 model AlumnoOnCursoActivo {
-  cursoActivo       CursosActivos           @relation(fields: [cursoActivoId], references: [id])
+  cursoActivo       CursosActivos           @relation(fields: [cursoActivoId], references: [id], onDelete: NoAction)
   cursoActivoId     Int
-  alumno            Alumno                  @relation(fields: [alumnoId], references: [id])
+  alumno            Alumno                  @relation(fields: [alumnoId], references: [id], onDelete: NoAction)
   alumnoId          Int
   @@id([cursoActivoId, alumnoId])
   descripcion       String?
@@ -94,7 +94,7 @@ model Alumno {
   celular           String
   domicilio         String     
   barrio            String?
-  localidad         Localidad               @relation(fields: [localidadId], references: [id])
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
   cursoActivo       AlumnoOnCursoActivo[]
 }
@@ -108,7 +108,7 @@ model Personal {
   celular           String
   domicilio         String     
   barrio            String?
-  localidad         Localidad               @relation(fields: [localidadId], references: [id])
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
   curso             Curso[]
 }
@@ -125,7 +125,7 @@ model Salas {
   id                Int                     @default(autoincrement()) @id
   nombre            String
   descripcion       String?
-  localidad         Localidad               @relation(fields: [localidadId], references: [id])
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
   cursosActivos     CursosActivos?
 }
@@ -139,15 +139,14 @@ model CursosActivos {
   horario           String
   cupos             Int
   descripcion       String?
-  sala              Salas?                  @relation(fields: [salaId], references: [id])
+  sala              Salas?                  @relation(fields: [salaId], references: [id], onDelete: NoAction)
   salaId            Int?
   alumnos           AlumnoOnCursoActivo[]
- // cursoLocalidad    LocalidadOnCurso[]
- localidadCurso     LocalidadOnCurso?       @relation(fields: [localidadId,cursoId], references: [localidadId,cursoId])
- localidadId        Int?
- cursoId            Int?
- turno              Turno?       @relation(fields: [turnoId], references: [id])
- turnoId        Int?
+  localidadCurso    LocalidadOnCurso?       @relation(fields: [localidadId,cursoId], references: [localidadId,cursoId], onDelete: NoAction)
+  localidadId       Int?
+  cursoId           Int?
+  turno             Turno?                  @relation(fields: [turnoId], references: [id], onDelete: NoAction)
+  turnoId           Int?
  
 }
 

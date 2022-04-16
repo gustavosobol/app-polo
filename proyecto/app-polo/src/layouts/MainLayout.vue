@@ -109,6 +109,13 @@ const linksList = [
     link: "#/destinatario-curso/",
     target: "",
   },
+  {
+    title: "Localidad Cursos",
+    caption: "Carga localidad cursos",
+    icon: "school",
+    link: "#/localidad-curso/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";
