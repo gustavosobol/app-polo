@@ -64,6 +64,11 @@ const routes = [
         name: "LocalidadCurso",
         component: () => import("pages/localidadCurso/index.vue"),
       },
+      {
+        path: "curso-activos",
+        name: "CursoActivos",
+        component: () => import("pages/cursoActivos/index.vue"),
+      },
     ],
   },
   {

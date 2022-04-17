@@ -7,7 +7,7 @@
           <q-btn color="purple" round dense icon="close" v-close-popup />
         </q-toolbar>
         <q-card-section>
-          <add-localidad-curso />
+          <add-curso-activos />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -16,8 +16,8 @@
         <q-card-section class="row items-center">
           <q-avatar icon="priority_high" color="red" text-color="white" />
           <span class="q-ml-sm">
-            Esta seguro de eliminar el cursoid: {{ idCursoKey }} y localidadId
-            {{ idLocalidadKey }}?
+            Esta seguro de eliminar el cursoid: {{ idCursoKey }} y
+            destinatarioid {{ idDestinatarioKey }}?
           </span>
         </q-card-section>
 
@@ -27,7 +27,7 @@
             flat
             label="Confirmar"
             color="primary"
-            @click="eliminar(idCursoKey, idLocalidadKey)"
+            @click="eliminar(idCursoKey, idDestinatarioKey)"
             v-close-popup
           />
         </q-card-actions>
@@ -52,7 +52,7 @@
         binary-state-sort
       >
         <template v-slot:top>
-          <div class="col-2 q-table__title">Curso Localidad</div>
+          <div class="col-2 q-table__title">Cursos Activos</div>
           <q-space />
           <q-input
             borderless
@@ -85,7 +85,7 @@
                 @click="
                   (confirm = !confirm),
                     (idCursoKey = props.row.cursoId),
-                    (idLocalidadKey = props.row.localidadId)
+                    (idDestinatarioKey = props.row.destinatarioId)
                 "
                 icon="delete"
             /></q-td>
@@ -98,9 +98,9 @@
                 {{ props.row.Curso.nombre }}
               </div>
             </q-td>
-            <q-td key="localidadId" :props="props">
+            <q-td key="destinatarioId" :props="props">
               <div class="text-pre-wrap">
-                {{ props.row.Localidad.nombre }}
+                {{ props.row.Destinatarios.nombre }}
               </div>
             </q-td>
             <q-td key="descripcion" :props="props">
@@ -114,42 +114,11 @@
                 label-cancel="Cancelar"
                 @save="
                   (v, iv) => {
-                    save(
-                      v,
-                      iv,
-                      props.row.cursoId,
-                      props.row.localidadId,
-                      'descripcion'
-                    );
+                    save(v, iv, props.key, 'descripcion');
                   }
                 "
               >
                 <q-input type="text" v-model="scope.value" dense autofocus />
-              </q-popup-edit>
-            </q-td>
-            <q-td key="vigente" :props="props">
-              <q-checkbox v-model="props.row.vigente" dense autofocus />
-              <!-- <div class="text-pre-wrap">{{ props.row.vigente }}</div> -->
-              <q-popup-edit
-                v-model="props.row.vigente"
-                v-slot="scope"
-                title="Vigente"
-                buttons
-                label-set="Guardar"
-                label-cancel="Cancelar"
-                @save="
-                  (v, iv) => {
-                    save(
-                      v,
-                      iv,
-                      props.row.cursoId,
-                      props.row.localidadId,
-                      'vigente'
-                    );
-                  }
-                "
-              >
-                <q-checkbox v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
           </q-tr>
@@ -162,7 +131,7 @@
 import { api } from "boot/axios";
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import AddLocalidadCurso from "../../components/localidadCurso/AddLocalidadCurso.vue";
+import AddCursoActivos from "../../components/cursoActivos/AddCursoActivos.vue";
 
 const columns = [
   /*   {
@@ -190,10 +159,10 @@ const columns = [
     sortable: true,
   },
   {
-    name: "localidadId",
+    name: "destinatarioId",
     align: "center",
-    label: "Localidad",
-    field: "localidadId",
+    label: "Destinatario",
+    field: "destinatarioId",
     sortable: true,
   },
   {
@@ -201,13 +170,6 @@ const columns = [
     align: "center",
     label: "Descripcion",
     field: "descripcion",
-    sortable: true,
-  },
-  {
-    name: "vigente",
-    align: "center",
-    label: "Vigente",
-    field: "vigente",
     sortable: true,
   },
 ];
@@ -218,11 +180,14 @@ export default {
     const data = ref([]);
     function returnCursoDestinatario() {
       api
-        .get("LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre)", {
-          headers: {
-            accept: "application/json",
-          },
-        })
+        .get(
+          "DestinatarioOnCurso?select=*, Curso(nombre),Destinatarios(nombre)",
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        )
         .then((response) => {
           data.value = response.data;
         })
@@ -240,18 +205,14 @@ export default {
     });
     return {
       filter: ref(""),
-      save(value, initialValue, idCurso, idDestinatario, field) {
+      save(value, initialValue, id, field) {
         const curso = `{ "${field}": "${value}"  }`;
         api
-          .patch(
-            `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
-            JSON.parse(curso),
-            {
-              headers: {
-                accept: "application/json",
-              },
-            }
-          )
+          .patch(`DestinatarioOnCurso?id=eq.${id}`, JSON.parse(curso), {
+            headers: {
+              accept: "application/json",
+            },
+          })
           .then((response) => {
             $q.notify({
               color: "positive",
@@ -272,7 +233,7 @@ export default {
       eliminar(idCurso, idDestinatario) {
         api
           .delete(
-            `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
+            `DestinatarioOnCurso?cursoId=eq.${idCurso}&destinatarioId=eq.${idDestinatario}`,
             {
               headers: {
                 accept: "application/json",
@@ -283,7 +244,7 @@ export default {
             $q.notify({
               color: "positive",
               position: "bottom",
-              message: `Se elimino el Curso id: ${this.idCursoKey.value}, Destinatario: ${this.idLocalidadKey.value} correctamente`,
+              message: `Se elimino el Curso id: ${this.idCursoKey.value}, Destinatario: ${this.idDestinatarioKey.value} correctamente`,
               icon: "mood",
             });
             returnCursoDestinatario();
@@ -303,9 +264,9 @@ export default {
       confirm: ref(false),
       toolbar: ref(false),
       idCursoKey: ref(0),
-      idLocalidadKey: ref(0),
+      idDestinatarioKey: ref(0),
     };
   },
-  components: { AddLocalidadCurso },
+  components: { AddCursoActivos },
 };
 </script>

@@ -116,6 +116,13 @@ const linksList = [
     link: "#/localidad-curso/",
     target: "",
   },
+  {
+    title: "Cursos Activos",
+    caption: "Carga cursos activos",
+    icon: "school",
+    link: "#/curso-activos/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";

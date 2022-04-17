@@ -48,7 +48,7 @@ model Curso {
   localidad         LocalidadOnCurso[]
   tipocurso         TipoCurso               @relation(fields: [tipoCursoId], references: [id], onDelete: NoAction)
   tipoCursoId       Int
-  personal          Personal               @relation(fields: [personalId], references: [id], onDelete: NoAction)
+  personal          Personal                @relation(fields: [personalId], references: [id], onDelete: NoAction)
   personalId        Int
 }
 model LocalidadOnCurso {
@@ -59,6 +59,7 @@ model LocalidadOnCurso {
   nombreMostrar     String
   descripcion       String?
   @@id([cursoId, localidadId])
+  vigente           Boolean                 @default(false)
   cursosActivos     CursosActivos[]
  // cursoActivo       CursosActivos?               @relation(fields: [cursoActivoId], references: [id])
  // cursoActivoId     Int?
@@ -136,7 +137,7 @@ model CursosActivos {
   activo            Boolean
   fechaInicio       DateTime                @db.Date
   fechaFin          DateTime                @db.Date
-  horario           String
+  dia_horario       String
   cupos             Int
   descripcion       String?
   sala              Salas?                  @relation(fields: [salaId], references: [id], onDelete: NoAction)
