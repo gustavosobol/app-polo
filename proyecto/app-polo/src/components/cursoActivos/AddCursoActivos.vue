@@ -8,10 +8,40 @@
         <q-card-section>
           <q-form class="q-px-sm q-pt-xl q-pb-lg">
             <!-- activo -->
-            <q-checkbox label="Activo" v-model="activo" />
+            <q-checkbox left-label label="Activo" v-model="activo" />
             <!-- Fecha Inicio Fecha Fin -->
-            <div class="q-pb-sm">Model: {{ model }}</div>
-            <q-date v-model="model" range />
+            <br />
+            <div class="row">
+              <div class="col-3">
+                <q-btn icon="event" round color="primary">
+                  <q-popup-proxy
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="date_desde_hasta" range>
+                      <div class="row items-center justify-end q-gutter-sm">
+                        <q-btn
+                          label="Cancel"
+                          color="primary"
+                          flat
+                          v-close-popup
+                        />
+                        <q-btn label="OK" color="primary" flat v-close-popup />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-btn>
+              </div>
+              <div class="col">
+                <q-badge color="teal">
+                  Fecha Desde: {{ date_desde_hasta.from }}
+                  <br />
+                  Fecha Hasta: {{ date_desde_hasta.to }}
+                </q-badge>
+              </div>
+            </div>
+            <br />
             <!-- Cupos -->
             <q-input
               filled
@@ -37,9 +67,9 @@
                 (val) => val !== null || 'Debe seleccionar una localidad',
               ]"
             />
-            <div class="q-pb-sm">Model: {{ cursoId }}</div>
             <!-- Curso -->
             <q-select
+              v-show="localidadId != null"
               v-model="cursoId"
               :options="listaCurso"
               option-value="cursoId"
@@ -88,6 +118,19 @@
                 <q-icon name="price_change" />
               </template>
             </q-input>
+            <!-- Dia y horario -->
+            <q-input
+              square
+              clearable
+              v-model="dia_horario"
+              type="text"
+              label="Dia y horario"
+              :rules="[(val) => val !== null || 'Debe indicar dia y horarios']"
+            >
+              <template v-slot:prepend>
+                <q-icon name="price_change" />
+              </template>
+            </q-input>
           </q-form>
         </q-card-section>
         <q-card-actions class="q-px-lg">
@@ -97,7 +140,7 @@
             color="purple-4"
             class="full-width text-white"
             label="Guardar"
-            @click="addCursoDestinatario"
+            @click="addCursoActivo"
           />
         </q-card-actions>
       </q-card>
@@ -136,7 +179,7 @@ export default defineComponent({
     const curso = ref([]);
     function returnCurso() {
       api
-        .get("LocalidadOnCurso", {
+        .get("LocalidadOnCurso?vigente=eq.true", {
           headers: {
             accept: "application/json",
           },
@@ -208,6 +251,8 @@ export default defineComponent({
     const fechaFin = ref(
       date.formatDate(date.addToDate(timeStamp, { days: 1 }), "YYYY/MM/DD")
     );
+    const date_desde_hasta = ref({ from: fechaInicio, to: fechaFin });
+    const activo = ref(true);
     const cupos = ref(0);
     const salaId = ref(null);
     const localidadId = ref(null);
@@ -216,6 +261,7 @@ export default defineComponent({
     const dia_horario = ref(null);
     const cursoId = ref(null);
     const options = ref([]);
+
     return {
       filterFn(val, update) {
         options.value = curso.value;
@@ -226,15 +272,24 @@ export default defineComponent({
           );
         });
       },
-      //add curso detinatario
-      async addCursoDestinatario() {
-        const destinatarioCursoNew = {
-          cursoId: cursoId.value.id,
+      //add curso activo
+      async addCursoActivo() {
+        const cursoActivoNew = {
+          activo: activo.value,
+          fechaInicio: date_desde_hasta.value.from,
+          fechaFin: date_desde_hasta.value.to,
+          dia_horario: dia_horario.value,
+          cupos: cupos.value,
           descripcion: descripcion.value,
-          nombreMostrar: `${cursoId.value.nombre}`,
+          salaId: salaId.value.id,
+          localidadId: localidadId.value.id,
+          cursoId: cursoId.value.cursoId,
+          turnoId: turnoId.value.id,
+          nombreMostrar: `${cursoId.value.nombreMostrar}`,
         };
+        console.log(`cursoActivoNew ${JSON.stringify(cursoActivoNew)}`);
         await api
-          .post("DestinatarioOnCurso", destinatarioCursoNew, {
+          .post("CursosActivos", cursoActivoNew, {
             headers: {
               accept: "application/json",
             },
@@ -258,8 +313,8 @@ export default defineComponent({
           });
       },
 
-      activo: ref(false),
-      model: ref({ from: fechaInicio, to: fechaFin }),
+      activo,
+      date_desde_hasta,
       cupos,
       descripcion,
       salaId,

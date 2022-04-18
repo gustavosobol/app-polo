@@ -114,7 +114,7 @@ export default defineComponent({
     const descripcion = ref(null);
     const cursoId = ref(null);
     const localidadId = ref(null);
-    const vigente = ref(false);
+    const vigente = ref(true);
     return {
       async addCursoLocalidad() {
         const localidadCursoNew = {
@@ -122,7 +122,7 @@ export default defineComponent({
           localidadId: localidadId.value.id,
           descripcion: descripcion.value,
           vigente: vigente.value,
-          nombreMostrar: `${cursoId.value.nombre} - ${localidadId.value.nombre}`,
+          nombreMostrar: `${cursoId.value.nombre}`, // - ${localidadId.value.nombre}`,
         };
         console.log(`add curso ${JSON.stringify(localidadCursoNew)}`);
         await api
