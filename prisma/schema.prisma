@@ -30,7 +30,7 @@ model TipoCurso {
   id                Int                     @default(autoincrement()) @id
   nombre            String
   descripcion       String?
-  curso             Curso?
+  curso             Curso[]
   }
 
 model Turno {

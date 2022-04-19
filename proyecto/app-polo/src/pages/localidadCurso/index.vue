@@ -92,16 +92,98 @@
             <q-td key="nombreMostrar" :props="props">
               <div class="text-pre-wrap">{{ props.row.nombreMostrar }}</div>
             </q-td>
-
+            <!-- Curso -->
             <q-td key="cursoId" :props="props">
-              <div class="text-pre-wrap">
-                {{ props.row.Curso.nombre }}
-              </div>
+              <q-select
+                disable
+                v-model="props.row.Curso.nombre"
+                :options="listaCurso"
+                option-value="id"
+                option-label="nombre"
+                label="Tipo Cursos"
+                use-input
+                behavior="menu"
+                :rules="[
+                  (val) => val !== null || 'Debe seleccionar una localidad',
+                ]"
+              />
+              <q-popup-edit
+                v-model="props.row.Curso.nombre"
+                v-slot="scope"
+                title="Curso"
+                buttons
+                label-set="Guardar"
+                label-cancel="Cancelar"
+                @save="
+                  (v, iv) => {
+                    save(
+                      v.id,
+                      iv,
+                      props.row.cursoId,
+                      props.row.localidadId,
+                      'cursoId'
+                    );
+                  }
+                "
+              >
+                <q-select
+                  v-model="scope.value"
+                  :options="listaCurso"
+                  option-value="id"
+                  option-label="nombre"
+                  label="Tipo Cursos"
+                  use-input
+                  behavior="menu"
+                  :rules="[
+                    (val) => val !== null || 'Debe seleccionar una localidad',
+                  ]"
+                />
+              </q-popup-edit>
             </q-td>
+            <!-- Localidad -->
             <q-td key="localidadId" :props="props">
-              <div class="text-pre-wrap">
-                {{ props.row.Localidad.nombre }}
-              </div>
+              <q-select
+                disable
+                v-model="props.row.Localidad.nombre"
+                :options="listaLocalidades"
+                option-value="id"
+                option-label="nombre"
+                behavior="menu"
+                :rules="[
+                  (val) => val !== null || 'Debe seleccionar una localidad',
+                ]"
+              />
+              <q-popup-edit
+                v-model="props.row.Localidad.nombre"
+                v-slot="scope"
+                title="Localidad"
+                buttons
+                label-set="Guardar"
+                label-cancel="Cancelar"
+                @save="
+                  (v, iv) => {
+                    save(
+                      v.id,
+                      iv,
+                      props.row.cursoId,
+                      props.row.localidadId,
+                      'localidadId'
+                    );
+                  }
+                "
+              >
+                <q-select
+                  v-model="scope.value"
+                  :options="listaLocalidades"
+                  option-value="id"
+                  option-label="nombre"
+                  label="Localidades"
+                  behavior="menu"
+                  :rules="[
+                    (val) => val !== null || 'Debe seleccionar una localidad',
+                  ]"
+                />
+              </q-popup-edit>
             </q-td>
             <q-td key="descripcion" :props="props">
               <div class="text-pre-wrap">{{ props.row.descripcion }}</div>
@@ -128,7 +210,7 @@
               </q-popup-edit>
             </q-td>
             <q-td key="vigente" :props="props">
-              <q-checkbox v-model="props.row.vigente" dense autofocus />
+              <q-checkbox disable v-model="props.row.vigente" dense autofocus />
               <!-- <div class="text-pre-wrap">{{ props.row.vigente }}</div> -->
               <q-popup-edit
                 v-model="props.row.vigente"
@@ -165,15 +247,6 @@ import { useQuasar } from "quasar";
 import AddLocalidadCurso from "../../components/localidadCurso/AddLocalidadCurso.vue";
 
 const columns = [
-  /*   {
-    name: "id",
-    required: true,
-    label: "Id",
-    align: "left",
-    field: (row) => row.name,
-    format: (val) => `${val}`,
-    sortable: true,
-  }, */
   {
     name: "nombreMostrar",
     align: "center",
@@ -235,8 +308,52 @@ export default {
           });
         });
     }
+    // curso
+    const curso = ref([]);
+    function returnCurso() {
+      api
+        .get("Curso", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          curso.value = response.data;
+        })
+        .catch((error) => {
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
+    /* Localidades */
+    const localidades = ref([]);
+    function returnLocalidades() {
+      api
+        .get("Localidad", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          localidades.value = response.data;
+        })
+        .catch((error) => {
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
     onMounted(() => {
       returnCursoDestinatario();
+      returnLocalidades();
+      returnCurso();
     });
     return {
       filter: ref(""),
@@ -304,6 +421,9 @@ export default {
       toolbar: ref(false),
       idCursoKey: ref(0),
       idLocalidadKey: ref(0),
+
+      listaLocalidades: localidades,
+      listaCurso: curso,
     };
   },
   components: { AddLocalidadCurso },
