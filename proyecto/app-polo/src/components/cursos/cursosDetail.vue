@@ -13,7 +13,7 @@
             autofocus
             @keyup.enter="
               $router.push({
-                name: 'Alumnos',
+                name: 'SearchAlumnos',
                 params: { idCurso: actual, idAlumno: doc },
               }),
                 (prompt = false)
@@ -25,7 +25,7 @@
           <q-btn flat label="Cancelar" v-close-popup />
           <router-link
             :to="{
-              name: 'Alumnos',
+              name: 'SearchAlumnos',
               params: { idCurso: actual, idAlumno: doc },
             }"
             style="text-decoration: none"

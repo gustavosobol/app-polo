@@ -86,6 +86,7 @@
       ]"
       @keyup="setData"
     />
+    <!-- celular -->
     <q-input
       filled
       v-model="celular"
@@ -98,7 +99,7 @@
       ]"
       @keyup="setData"
     />
-
+    <!-- domicilllio -->
     <q-input
       filled
       v-model="domicilio"
@@ -110,7 +111,7 @@
       ]"
       @keyup="setData"
     />
-
+    <!-- barrio -->
     <q-select
       filled
       v-model="barrio"
@@ -118,8 +119,6 @@
       label="Barrio"
       :rules="[(val) => val !== null || 'Debe seleccionar un barrio']"
     />
-    <!--       </div>
-    </div> -->
 
     <q-toggle v-model="accept" label="Acepta la inscripción" />
 

@@ -10,6 +10,11 @@ const routes = [
         component: () => import("pages/students/index.vue"),
       },
       {
+        path: "searchalumnos",
+        name: "SearchAlumnos",
+        component: () => import("pages/students/add-students.vue"),
+      },
+      {
         path: "cursos",
         name: "Cursos",
         component: () => import("pages/course-registration/index.vue"),
