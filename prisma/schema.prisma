@@ -128,7 +128,7 @@ model Salas {
   descripcion       String?
   localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
-  cursosActivos     CursosActivos?
+  cursosActivos     CursosActivos[]
 }
 
 model CursosActivos {

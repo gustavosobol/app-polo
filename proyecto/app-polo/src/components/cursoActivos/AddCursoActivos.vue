@@ -304,6 +304,7 @@ export default defineComponent({
             return JSON.stringify(response.data);
           })
           .catch((error) => {
+            console.log(`error ${error}`);
             $q.notify({
               color: "negative",
               position: "bottom",
