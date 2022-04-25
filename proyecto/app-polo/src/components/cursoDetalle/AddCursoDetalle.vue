@@ -41,17 +41,6 @@
                 (val) => val !== null || 'Debe seleccionar una localidad',
               ]"
             />
-            <q-select
-              filled
-              v-model="personalId"
-              :options="listaPersonal"
-              option-value="id"
-              option-label="nombre"
-              label="Profesor"
-              :rules="[
-                (val) => val !== null || 'Debe seleccionar una localidad',
-              ]"
-            />
           </q-form>
         </q-card-section>
         <q-card-actions class="q-px-lg">
@@ -76,7 +65,7 @@ export default defineComponent({
   name: "AddCursoDetalle",
   setup() {
     const tipoCurso = ref([]);
-    const personal = ref([]);
+
     function returnTipoCurso() {
       api
         .get("TipoCurso", {
@@ -96,41 +85,21 @@ export default defineComponent({
           });
         });
     }
-    function returnPersonal() {
-      api
-        .get("Personal", {
-          headers: {
-            accept: "application/json",
-          },
-        })
-        .then((response) => {
-          personal.value = response.data;
-        })
-        .catch((error) => {
-          $q.notify({
-            color: "negative",
-            position: "bottom",
-            message: `code: ${error.response.status} - Mensaje ${error}`,
-            icon: "report_problem",
-          });
-        });
-    }
+
     onMounted(() => {
       returnTipoCurso();
-      returnPersonal();
     });
     const $q = useQuasar();
     const nombre = ref(null);
     const descripcion = ref(null);
     const tipoCursoId = ref(null);
-    const personalId = ref(null);
+
     return {
       async addCurso() {
         const cursoNew = {
           nombre: nombre.value,
           descripcion: descripcion.value,
           tipoCursoId: tipoCursoId.value.id,
-          personalId: personalId.value.id,
         };
         console.log(`add curso ${JSON.stringify(cursoNew)}`);
         await api
@@ -161,9 +130,8 @@ export default defineComponent({
       nombre,
       descripcion,
       tipoCursoId,
-      personalId,
+
       listaTipoCurso: tipoCurso,
-      listaPersonal: personal,
     };
   },
 });

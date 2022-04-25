@@ -41,7 +41,17 @@
                 <q-icon name="price_change" />
               </template>
             </q-input>
-
+            <q-select
+              filled
+              v-model="personalId"
+              :options="listaPersonal"
+              option-value="id"
+              option-label="nombre"
+              label="Profesor"
+              :rules="[
+                (val) => val !== null || 'Debe seleccionar una localidad',
+              ]"
+            />
             <q-checkbox label="vigente" v-model="vigente" />
           </q-form>
         </q-card-section>
@@ -68,6 +78,26 @@ export default defineComponent({
   setup() {
     const curso = ref([]);
     const localidad = ref([]);
+    const personal = ref([]);
+    function returnPersonal() {
+      api
+        .get("Personal", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          personal.value = response.data;
+        })
+        .catch((error) => {
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
     function returnCurso() {
       api
         .get("Curso", {
@@ -109,12 +139,14 @@ export default defineComponent({
     onMounted(() => {
       returnCurso();
       returnLocalidad();
+      returnPersonal();
     });
     const $q = useQuasar();
     const descripcion = ref(null);
     const cursoId = ref(null);
     const localidadId = ref(null);
     const vigente = ref(true);
+    const personalId = ref(null);
     return {
       async addCursoLocalidad() {
         const localidadCursoNew = {
@@ -123,6 +155,7 @@ export default defineComponent({
           descripcion: descripcion.value,
           vigente: vigente.value,
           nombreMostrar: `${cursoId.value.nombre}`, // - ${localidadId.value.nombre}`,
+          personalId: personalId.value.id,
         };
         console.log(`add curso ${JSON.stringify(localidadCursoNew)}`);
         await api
@@ -156,6 +189,8 @@ export default defineComponent({
       vigente,
       listaCurso: curso,
       listaLocalidad: localidad,
+      personalId,
+      listaPersonal: personal,
     };
   },
 });

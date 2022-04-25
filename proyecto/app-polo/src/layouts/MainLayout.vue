@@ -123,6 +123,13 @@ const linksList = [
     link: "#/curso-activos/",
     target: "",
   },
+  {
+    title: "Lista Alumnos Cursos Activos",
+    caption: "Lista Alumnos Carga cursos activos",
+    icon: "school",
+    link: "#/listcursos/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";

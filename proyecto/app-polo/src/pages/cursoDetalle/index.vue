@@ -129,11 +129,6 @@
                 {{ props.row.TipoCurso.nombre }}
               </div>
             </q-td>
-            <q-td key="personalId" :props="props">
-              <div class="text-pre-wrap">
-                {{ props.row.Personal.apellido }}
-              </div>
-            </q-td>
           </q-tr>
         </template>
       </q-table>
@@ -177,13 +172,6 @@ const columns = [
     field: "tipoCursoId",
     sortable: true,
   },
-  {
-    name: "personalId",
-    align: "center",
-    label: "Profesor",
-    field: "personalId",
-    sortable: true,
-  },
 ];
 
 export default {
@@ -192,7 +180,7 @@ export default {
     const data = ref([]);
     function returnCurso() {
       api
-        .get("Curso?select=*, TipoCurso(nombre),Personal(apellido)", {
+        .get("Curso?select=*, TipoCurso(nombre)", {
           headers: {
             accept: "application/json",
           },

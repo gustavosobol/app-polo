@@ -48,8 +48,8 @@ model Curso {
   localidad         LocalidadOnCurso[]
   tipocurso         TipoCurso               @relation(fields: [tipoCursoId], references: [id], onDelete: NoAction)
   tipoCursoId       Int
-  personal          Personal                @relation(fields: [personalId], references: [id], onDelete: NoAction)
-  personalId        Int
+//  personal          Personal                @relation(fields: [personalId], references: [id], onDelete: NoAction)
+//  personalId        Int                     @default(1)
 }
 model LocalidadOnCurso {
   curso             Curso                   @relation(fields: [cursoId], references: [id], onDelete: NoAction)
@@ -63,13 +63,15 @@ model LocalidadOnCurso {
   cursosActivos     CursosActivos[]
  // cursoActivo       CursosActivos?               @relation(fields: [cursoActivoId], references: [id])
  // cursoActivoId     Int?
+  personal          Personal                @relation(fields: [personalId], references: [id], onDelete: NoAction)
+  personalId        Int                     @default(1)
   
 }
 model DestinatarioOnCurso {
   curso             Curso                   @relation(fields: [cursoId], references: [id], onDelete: NoAction)
   cursoId           Int
   destinatario      Destinatarios           @relation(fields: [destinatarioId], references: [id], onDelete: NoAction)
-  destinatarioId       Int
+  destinatarioId    Int
   @@id([cursoId, destinatarioId])
   descripcion       String?
   nombreMostrar     String
@@ -83,6 +85,10 @@ model AlumnoOnCursoActivo {
   @@id([cursoActivoId, alumnoId])
   descripcion       String?
   nombreMostrar     String
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime?               @updatedAt
+  inscripto         Boolean                 @default(false)
+  fechaConfInsc     DateTime?
 }
 
 model Alumno {
@@ -111,7 +117,8 @@ model Personal {
   barrio            String?
   localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
-  curso             Curso[]
+  cursoLocalidad    LocalidadOnCurso[]
+  // curso             Curso[]
 }
 model Destinatarios {
   id                Int                     @default(autoincrement()) @id

@@ -234,6 +234,11 @@
                 <q-checkbox v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
+            <q-td key="personalId" :props="props">
+              <div class="text-pre-wrap">
+                {{ props.row.Personal.apellido }}
+              </div>
+            </q-td>
           </q-tr>
         </template>
       </q-table>
@@ -283,6 +288,13 @@ const columns = [
     field: "vigente",
     sortable: true,
   },
+  {
+    name: "personalId",
+    align: "center",
+    label: "Profesor",
+    field: "personalId",
+    sortable: true,
+  },
 ];
 
 export default {
@@ -291,11 +303,14 @@ export default {
     const data = ref([]);
     function returnCursoDestinatario() {
       api
-        .get("LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre)", {
-          headers: {
-            accept: "application/json",
-          },
-        })
+        .get(
+          "LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre),Personal(apellido)",
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        )
         .then((response) => {
           data.value = response.data;
         })

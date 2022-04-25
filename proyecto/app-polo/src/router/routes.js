@@ -20,6 +20,11 @@ const routes = [
         component: () => import("pages/course-registration/index.vue"),
       },
       {
+        path: "listcursos",
+        name: "ListaCursos",
+        component: () => import("pages/course-registration/listIndex.vue"),
+      },
+      {
         path: "nuevocursos",
         name: "NuevoCursos",
         component: () => import("pages/curso/addCurso.vue"),
@@ -79,23 +84,6 @@ const routes = [
   {
     path: "/testing",
     component: () => import("layouts/MainTestLayout.vue"),
-    children: [
-      //   { path: '', component: () => import('pages/Index.vue') },
-      {
-        path: "plantilla",
-        component: () => import("pages/plantillas/plantilla.vue"),
-      },
-      {
-        path: "boton",
-        component: () => import("pages/plantillas/navegacion.vue"),
-      },
-      { path: "tabla", component: () => import("pages/plantillas/tabla.vue") },
-      {
-        path: "tabla2",
-        component: () => import("pages/plantillas/tabla2.vue"),
-      },
-      //{ path: 'dialogo', component: () => import('pages/plantillas/dialogo.vue') },
-    ],
   },
   // Always leave this as last one,
   // but you can also remove it

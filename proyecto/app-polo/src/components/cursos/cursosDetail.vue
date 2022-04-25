@@ -9,12 +9,24 @@
         <q-card-section class="q-pt-none">
           <q-input
             dense
+            label="Ingrese Nro Documento"
             v-model="doc"
             autofocus
+            type="number"
+            :rules="[
+              (val) =>
+                (val !== null && val !== '') ||
+                'Ingrese su número de documento',
+              (val) => val.length >= 7 || 'El numero debe ser valido',
+            ]"
             @keyup.enter="
               $router.push({
                 name: 'SearchAlumnos',
-                params: { idCurso: actual, idAlumno: doc },
+                params: {
+                  idCurso: idCurso,
+                  nombreCurso: actual,
+                  idAlumno: doc,
+                },
               }),
                 (prompt = false)
             "
@@ -26,7 +38,11 @@
           <router-link
             :to="{
               name: 'SearchAlumnos',
-              params: { idCurso: actual, idAlumno: doc },
+              params: {
+                idCurso: idCurso,
+                nombreCurso: actual,
+                idAlumno: doc,
+              },
             }"
             style="text-decoration: none"
           >
@@ -85,7 +101,9 @@
             rounded
             color="primary"
             label="Reservar"
-            @click="(prompt = true), (actual = String(nombreMostrar))"
+            @click="
+              (prompt = true), (actual = String(nombreMostrar)), (idCurso = id)
+            "
           />
         </div>
       </q-card-section>
@@ -98,15 +116,21 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   setup() {
     let actual = "0";
+    let idCurso = ref(null);
     let doc = ref();
     return {
       tab: ref("horario"),
       actual,
+      idCurso,
       doc,
       prompt: ref(false),
     };
   },
   props: {
+    id: {
+      type: Number,
+      // default: "",
+    },
     nombreMostrar: {
       type: String,
       default: "nombre",
