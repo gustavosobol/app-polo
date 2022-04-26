@@ -78,7 +78,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "3m"
+        max-size: "2m"
 volumes:
   app-vol:
     driver: local
