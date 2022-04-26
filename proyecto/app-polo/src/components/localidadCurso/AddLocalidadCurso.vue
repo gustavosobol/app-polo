@@ -52,6 +52,17 @@
                 (val) => val !== null || 'Debe seleccionar una localidad',
               ]"
             />
+            <q-select
+              filled
+              v-model="destinatarioId"
+              :options="listaDestinatario"
+              option-value="id"
+              option-label="nombre"
+              label="Destinatarios"
+              :rules="[
+                (val) => val !== null || 'Debe seleccionar una localidad',
+              ]"
+            />
             <q-checkbox label="vigente" v-model="vigente" />
           </q-form>
         </q-card-section>
@@ -79,6 +90,7 @@ export default defineComponent({
     const curso = ref([]);
     const localidad = ref([]);
     const personal = ref([]);
+    const destinatario = ref([]);
     function returnPersonal() {
       api
         .get("Personal", {
@@ -136,10 +148,30 @@ export default defineComponent({
           });
         });
     }
+    function returnDestinatario() {
+      api
+        .get("Destinatarios", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          destinatario.value = response.data;
+        })
+        .catch((error) => {
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
     onMounted(() => {
       returnCurso();
       returnLocalidad();
       returnPersonal();
+      returnDestinatario();
     });
     const $q = useQuasar();
     const descripcion = ref(null);
@@ -147,6 +179,7 @@ export default defineComponent({
     const localidadId = ref(null);
     const vigente = ref(true);
     const personalId = ref(null);
+    const destinatarioId = ref(null);
     return {
       async addCursoLocalidad() {
         const localidadCursoNew = {
@@ -156,6 +189,7 @@ export default defineComponent({
           vigente: vigente.value,
           nombreMostrar: `${cursoId.value.nombre}`, // - ${localidadId.value.nombre}`,
           personalId: personalId.value.id,
+          destinatarioId: destinatarioId.value.id,
         };
         console.log(`add curso ${JSON.stringify(localidadCursoNew)}`);
         await api
@@ -190,7 +224,9 @@ export default defineComponent({
       listaCurso: curso,
       listaLocalidad: localidad,
       personalId,
+      destinatarioId,
       listaPersonal: personal,
+      listaDestinatario: destinatario,
     };
   },
 });

@@ -239,6 +239,11 @@
                 {{ props.row.Personal.apellido }}
               </div>
             </q-td>
+            <q-td key="destinatarioId" :props="props">
+              <div class="text-pre-wrap">
+                {{ props.row.Destinatarios.nombre }}
+              </div>
+            </q-td>
           </q-tr>
         </template>
       </q-table>
@@ -295,6 +300,13 @@ const columns = [
     field: "personalId",
     sortable: true,
   },
+  {
+    name: "destinatarioId",
+    align: "center",
+    label: "Destinatario",
+    field: "destinatarioId",
+    sortable: true,
+  },
 ];
 
 export default {
@@ -304,7 +316,7 @@ export default {
     function returnCursoDestinatario() {
       api
         .get(
-          "LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre),Personal(apellido)",
+          "LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre),Personal(apellido), Destinatarios(nombre)",
           {
             headers: {
               accept: "application/json",

@@ -3,7 +3,11 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/Index.vue") },
+      {
+        path: "",
+        component: () => import("pages/course-registration/index.vue"),
+        // component: () => import("pages/Index.vue"),
+      },
       {
         path: "alumnos",
         name: "Alumnos",
@@ -64,11 +68,7 @@ const routes = [
         name: "Salas",
         component: () => import("pages/salas/index.vue"),
       },
-      {
-        path: "destinatario-curso",
-        name: "DestinatarioCurso",
-        component: () => import("pages/destinatarioCurso/index.vue"),
-      },
+
       {
         path: "localidad-curso",
         name: "LocalidadCurso",
