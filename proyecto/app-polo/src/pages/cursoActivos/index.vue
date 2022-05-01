@@ -91,6 +91,11 @@
             </q-td>
             <!-- activo -->
             <q-td key="activo" :props="props">
+              <q-toggle
+                v-model="props.row.activo"
+                @click="cursoActivo(props.row.id, props.row.activo)"
+                color="green"
+              />
               <q-checkbox disable v-model="props.row.activo" dense autofocus />
               <q-popup-edit
                 v-model="props.row.activo"
@@ -628,6 +633,33 @@ export default defineComponent({
         update();
       },
       filter: ref(""),
+
+      cursoActivo(id, valor) {
+        const curso = `{ "activo": "${valor}"  }`;
+        api
+          .patch(`CursosActivos?id=eq.${id}`, JSON.parse(curso), {
+            headers: {
+              accept: "application/json",
+            },
+          })
+          .then((response) => {
+            $q.notify({
+              color: "positive",
+              position: "bottom",
+              message: `Se cambio el estado al curso`,
+              icon: "mood",
+            });
+          })
+          .catch((error) => {
+            $q.notify({
+              color: "negative",
+              position: "bottom",
+              message: `Mensaje ${error}`,
+              icon: "report_problem",
+            });
+          });
+      },
+
       save(value, initialValue, id, field) {
         const curso = `{ "${field}": "${value}"  }`;
         api
