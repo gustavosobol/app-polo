@@ -1,0 +1,147 @@
+//ingresar al contenedor 
+// docker run -it -v $PWD:/home/prisma node:17-alpine3.15 sh
+// moverse a la carpta
+// cd /home/prisma/prisma
+// ejecutar comando para actualizar base de datos
+// npx prisma migrate dev --name nombre_de_la_modificacion
+
+// This is your Prisma schema file,1
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model Localidad {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  alumnos           Alumno[]
+  salas             Salas[]
+  cursos            LocalidadOnCurso[]
+  // personal          Personal[]
+}
+model TipoCurso {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  descripcion       String?
+  curso             Curso[]
+  }
+
+model Turno {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  descripcion       String?
+  cursosActivos     CursosActivos[]
+  }
+
+model Curso {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  descripcion       String?
+  localidad         LocalidadOnCurso[]
+  tipocurso         TipoCurso               @relation(fields: [tipoCursoId], references: [id], onDelete: NoAction)
+  tipoCursoId       Int
+}
+model LocalidadOnCurso {
+  curso             Curso                   @relation(fields: [cursoId], references: [id], onDelete: NoAction)
+  cursoId           Int
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
+  localidadId       Int
+  destinatario      Destinatarios     @relation(fields: [destinatarioId], references: [id], onDelete: NoAction)
+  destinatarioId    Int                    // @default(2)
+  nombreMostrar     String
+  descripcion       String?
+  @@id([cursoId, localidadId])
+  vigente           Boolean                 @default(false)
+  cursosActivos     CursosActivos[]
+  personal          Personal                @relation(fields: [personalId], references: [id], onDelete: NoAction)
+  personalId        Int                    // @default(1)
+  
+}
+model AlumnoOnCursoActivo {
+  cursoActivo       CursosActivos           @relation(fields: [cursoActivoId], references: [id], onDelete: NoAction)
+  cursoActivoId     Int
+  alumno            Alumno                  @relation(fields: [alumnoId], references: [id], onDelete: NoAction)
+  alumnoId          Int
+  @@id([cursoActivoId, alumnoId])
+  descripcion       String?
+  nombreMostrar     String
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime?               @updatedAt
+  inscripto         Boolean                 @default(false)
+  fechaConfInsc     DateTime?
+}
+
+model Alumno {
+  id                Int                     @default(autoincrement()) @id
+  nroDocumento      Int                     @unique
+  apellido          String
+  nombre            String     
+  fechaNacimiento   DateTime                @db.Date
+  email             String 
+  celular           String
+  domicilio         String     
+  barrio            String?
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
+  localidadId       Int
+  cursoActivo       AlumnoOnCursoActivo[]
+}
+model Personal {
+  id                Int                     @default(autoincrement()) @id
+  nroDocumento      Int                     @unique
+  apellido          String
+  nombre            String     
+  fechaNacimiento   DateTime                @db.Date
+  email             String 
+  celular           String
+  domicilio         String     
+  barrio            String?
+localidadId       Int
+  cursoLocalidad    LocalidadOnCurso[]
+
+}
+model Destinatarios {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  edadInicio        Int
+  edadFin           Int
+  localidadCursos   LocalidadOnCurso[] 
+}
+
+
+model Salas {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  descripcion       String?
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
+  localidadId       Int
+  cursosActivos     CursosActivos[]
+}
+
+model CursosActivos {
+  id                Int                     @default(autoincrement()) @id
+  nombreMostrar     String
+  activo            Boolean
+  fechaInicio       DateTime                @db.Date
+  fechaFin          DateTime                @db.Date
+  dia_horario       String
+  cupos             Int
+  descripcion       String?
+  sala              Salas?                  @relation(fields: [salaId], references: [id], onDelete: NoAction)
+  salaId            Int?
+  alumnos           AlumnoOnCursoActivo[]
+  localidadCurso    LocalidadOnCurso?       @relation(fields: [localidadId,cursoId], references: [localidadId,cursoId], onDelete: NoAction)
+  localidadId       Int?
+  cursoId           Int?
+  turno             Turno?                  @relation(fields: [turnoId], references: [id], onDelete: NoAction)
+  turnoId           Int?
+ 
+}
+
+

@@ -1,27 +1,27 @@
 <template>
   <q-page class="q-pa-xl">
-    <h6 class="q-my-sm">Agregar alumno {{ $route.params.idCurso }}</h6>
+    <h6 class="q-my-sm">Agregar alumno {{ $route.params.nombreCurso }}</h6>
     <div class="row q-col-gutter-sm q-ma-xs">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <formStudentsVue @getData="getData" />
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <!--       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <pre>{{ JSON.stringify(datos) }}</pre>
         <perfil v-bind="datos" />
-      </div>
+      </div> -->
     </div>
   </q-page>
 </template>
 
 <script>
 import formStudentsVue from "../../components/students/formStudents.vue";
-import Perfil from "../../components/students/Perfil.vue";
+/* import Perfil from "../../components/students/Perfil.vue"; */
 import { ref } from "vue";
 
 export default {
   components: {
     formStudentsVue,
-    Perfil,
+    /*   Perfil, */
   },
   methods: {
     getData(data) {

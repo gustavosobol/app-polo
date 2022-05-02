@@ -1,1 +1,3 @@
-proyecto/app-polo/node_modules
+proyecto/app-polo/node_modules/
+postgres/
+prisma/node_modules/
