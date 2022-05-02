@@ -206,7 +206,6 @@ export default defineComponent({
           barrio: barrio.value,
           localidadId: localidadId.value.id,
         };
-        console.log(`personas ${JSON.stringify(personalNew)}`);
         await api
           .post("Personal", personalNew, {
             headers: {

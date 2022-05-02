@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="toolbar">
+    <q-dialog @hide="returnLocalidades" v-model="toolbar">
       <q-card>
         <q-toolbar>
           <q-space />
@@ -11,6 +11,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -223,6 +224,7 @@ export default {
       toolbar: ref(false),
       idelim: ref(0),
       sendTurno: ref([]),
+      returnLocalidades,
     };
   },
   components: { AddLocalidades },

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="toolbar">
+    <q-dialog @hide="returnCursoDestinatario" v-model="toolbar">
       <q-card>
         <q-toolbar>
           <q-space />
@@ -603,6 +603,7 @@ export default {
       listaCurso: curso,
       listaPersonal: personal,
       listaDestinatario: destinatario,
+      returnCursoDestinatario,
     };
   },
   components: { AddLocalidadCurso },

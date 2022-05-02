@@ -18,18 +18,18 @@
                 <q-icon name="price_change" />
               </template>
             </q-input>
+            <q-btn
+              unelevated
+              size="lg"
+              color="purple-4"
+              class="full-width text-white"
+              label="Guardar"
+              type="submit"
+              @click="addLocalidad"
+            />
           </q-form>
         </q-card-section>
-        <q-card-actions class="q-px-lg">
-          <q-btn
-            unelevated
-            size="lg"
-            color="purple-4"
-            class="full-width text-white"
-            label="Guardar"
-            @click="addLocalidad"
-          />
-        </q-card-actions>
+        <q-card-actions class="q-px-lg"> </q-card-actions>
       </q-card>
     </div>
   </div>
