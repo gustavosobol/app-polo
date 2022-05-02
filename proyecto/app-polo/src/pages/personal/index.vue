@@ -11,6 +11,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -233,7 +234,6 @@
                 <q-input type="text" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
-
             <q-td key="localidadId" :props="props">
               <div class="text-pre-wrap">
                 {{ props.row.Localidad.nombre }}

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="toolbar">
+    <q-dialog @hide="returnCursoDestinatario" v-model="toolbar">
       <q-card>
         <q-toolbar>
           <q-space />
@@ -648,6 +648,7 @@ export default defineComponent({
       toolbar: ref(false),
       idCursoKey: ref(0),
       idDestinatarioKey: ref(0),
+      returnCursoDestinatario,
       /* 
       listaSalas: salas,
       listaLocalidades: localidades,

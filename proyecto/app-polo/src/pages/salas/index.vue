@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="toolbar">
+    <q-dialog @hide="returnSala" v-model="toolbar">
       <q-card>
         <q-toolbar>
           <q-space />
@@ -258,6 +258,7 @@ export default {
       confirm: ref(false),
       toolbar: ref(false),
       idelim: ref(0),
+      returnSala,
     };
   },
   components: { AddSalas },

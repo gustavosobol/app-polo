@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="toolbar">
+    <q-dialog @hide="returnDestinatarios" v-model="toolbar">
       <q-card>
         <q-toolbar>
           <q-space />
@@ -273,6 +273,7 @@ export default {
       toolbar: ref(false),
       idelim: ref(0),
       sendTurno: ref([]),
+      returnDestinatarios,
     };
   },
   components: { AddDestinatarios },
