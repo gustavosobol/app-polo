@@ -210,39 +210,114 @@
               </q-popup-edit>
             </q-td>
             <q-td key="vigente" :props="props">
-              <q-checkbox disable v-model="props.row.vigente" dense autofocus />
-              <!-- <div class="text-pre-wrap">{{ props.row.vigente }}</div> -->
-              <q-popup-edit
+              <q-toggle
                 v-model="props.row.vigente"
+                @click="
+                  vigencia(
+                    props.row.cursoId,
+                    props.row.localidadId,
+                    props.row.vigente
+                  )
+                "
+                color="green"
+              />
+            </q-td>
+            <q-td key="personalId" :props="props">
+              <q-select
+                disable
+                v-model="props.row.Personal.apellido"
+                :options="listaPersonal"
+                option-value="id"
+                option-label="apellido"
+                label="Personal"
+                use-input
+                behavior="menu"
+                :rules="[
+                  (val) => val !== null || 'Debe seleccionar una localidad',
+                ]"
+              />
+              <q-popup-edit
+                v-model="props.row.Personal.apellido"
                 v-slot="scope"
-                title="Vigente"
+                title="Personal"
                 buttons
                 label-set="Guardar"
                 label-cancel="Cancelar"
                 @save="
                   (v, iv) => {
                     save(
-                      v,
+                      v.id,
                       iv,
                       props.row.cursoId,
                       props.row.localidadId,
-                      'vigente'
+                      'personalId'
                     );
                   }
                 "
               >
-                <q-checkbox v-model="scope.value" dense autofocus />
+                <q-select
+                  v-model="scope.value"
+                  :options="listaPersonal"
+                  option-value="id"
+                  option-label="apellido"
+                  label="Personal"
+                  use-input
+                  behavior="menu"
+                  :rules="[
+                    (val) => val !== null || 'Debe seleccionar una localidad',
+                  ]"
+                />
               </q-popup-edit>
-            </q-td>
-            <q-td key="personalId" :props="props">
-              <div class="text-pre-wrap">
-                {{ props.row.Personal.apellido }}
-              </div>
             </q-td>
             <q-td key="destinatarioId" :props="props">
               <div class="text-pre-wrap">
                 {{ props.row.Destinatarios.nombre }}
               </div>
+              <q-select
+                disable
+                v-model="props.row.Destinatarios.nombre"
+                :options="listaDestinatario"
+                option-value="id"
+                option-label="nombre"
+                label="Destinatarios"
+                use-input
+                behavior="menu"
+                :rules="[
+                  (val) => val !== null || 'Debe seleccionar una localidad',
+                ]"
+              />
+              <q-popup-edit
+                v-model="props.row.Destinatarios.nombre"
+                v-slot="scope"
+                title="Destinatario"
+                buttons
+                label-set="Guardar"
+                label-cancel="Cancelar"
+                @save="
+                  (v, iv) => {
+                    save(
+                      v.id,
+                      iv,
+                      props.row.cursoId,
+                      props.row.localidadId,
+                      'destinatarioId'
+                    );
+                  }
+                "
+              >
+                <q-select
+                  v-model="scope.value"
+                  :options="listaDestinatario"
+                  option-value="id"
+                  option-label="nombre"
+                  label="Destinatario"
+                  use-input
+                  behavior="menu"
+                  :rules="[
+                    (val) => val !== null || 'Debe seleccionar una localidad',
+                  ]"
+                />
+              </q-popup-edit>
             </q-td>
           </q-tr>
         </template>
@@ -335,6 +410,48 @@ export default {
           });
         });
     }
+    // destinatario
+    const destinatario = ref([]);
+    function returnDestinatario() {
+      api
+        .get("Destinatarios", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          destinatario.value = response.data;
+        })
+        .catch((error) => {
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
+    // personal
+    const personal = ref([]);
+    function returnPersonal() {
+      api
+        .get("Personal", {
+          headers: {
+            accept: "application/json",
+          },
+        })
+        .then((response) => {
+          personal.value = response.data;
+        })
+        .catch((error) => {
+          $q.notify({
+            color: "negative",
+            position: "bottom",
+            message: `code: ${error.response.status} - Mensaje ${error}`,
+            icon: "report_problem",
+          });
+        });
+    }
     // curso
     const curso = ref([]);
     function returnCurso() {
@@ -378,12 +495,45 @@ export default {
         });
     }
     onMounted(() => {
+      returnPersonal();
       returnCursoDestinatario();
       returnLocalidades();
       returnCurso();
+      returnDestinatario();
     });
     return {
       filter: ref(""),
+
+      vigencia(idCurso, idDestinatario, valor) {
+        const curso = `{ "vigente": "${valor}"  }`;
+        api
+          .patch(
+            `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
+            JSON.parse(curso),
+            {
+              headers: {
+                accept: "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            $q.notify({
+              color: "positive",
+              position: "bottom",
+              message: `Se cambio el estado al curso`,
+              icon: "mood",
+            });
+          })
+          .catch((error) => {
+            $q.notify({
+              color: "negative",
+              position: "bottom",
+              message: `Mensaje ${error}`,
+              icon: "report_problem",
+            });
+          });
+      },
+
       save(value, initialValue, idCurso, idDestinatario, field) {
         const curso = `{ "${field}": "${value}"  }`;
         api
@@ -451,6 +601,8 @@ export default {
 
       listaLocalidades: localidades,
       listaCurso: curso,
+      listaPersonal: personal,
+      listaDestinatario: destinatario,
     };
   },
   components: { AddLocalidadCurso },

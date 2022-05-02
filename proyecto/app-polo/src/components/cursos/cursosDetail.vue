@@ -76,25 +76,29 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="horario">
           <div>
-            <div>Fecha Inicio: {{ fechaInicio }} Fin: {{ fechaFin }}</div>
+            <div><b>Fecha Inicio:</b> {{ fechaInicio }}</div>
+            <div><b>Fecha Fin: </b> {{ fechaFin }}</div>
           </div>
           <div>
-            <div>Dias:Me faltan los dias</div>
-            <div>Horarios: {{ horario }}</div>
+            <!-- <div>Dias: Me faltan los dias</div> -->
+            <div><b>Horarios: </b> {{ dia_horario }}</div>
           </div>
           <div>
-            <div>Cupos: {{ cupos }}</div>
+            <div><b> Cupos:</b> {{ cupos }}</div>
           </div>
         </q-tab-panel>
 
         <q-tab-panel name="descripcion">
-          descripcion: {{ descripcion }}
+          <b> Descripcion: </b> {{ LocalidadOnCurso.descripcion }}
         </q-tab-panel>
       </q-tab-panels>
 
       <q-separator />
       <q-card-section>
-        <div class="text-h6">Profesor: Falta</div>
+        <div class="col text-h6">
+          Profesor: {{ LocalidadOnCurso.Personal.apellido }},
+          {{ LocalidadOnCurso.Personal.nombre }}
+        </div>
         <div class="q-pa-md column q-gutter-sm">
           <q-btn
             flat
@@ -143,7 +147,7 @@ export default defineComponent({
       type: String,
       default: "",
     },
-    horario: {
+    dia_horario: {
       type: String,
       default: "",
     },

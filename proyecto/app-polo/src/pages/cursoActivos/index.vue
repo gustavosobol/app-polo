@@ -96,22 +96,6 @@
                 @click="cursoActivo(props.row.id, props.row.activo)"
                 color="green"
               />
-              <q-checkbox disable v-model="props.row.activo" dense autofocus />
-              <q-popup-edit
-                v-model="props.row.activo"
-                v-slot="scope"
-                title="activo"
-                buttons
-                label-set="Guardar"
-                label-cancel="Cancelar"
-                @save="
-                  (v, iv) => {
-                    save(v, iv, props.key, 'activo');
-                  }
-                "
-              >
-                <q-checkbox v-model="scope.value" dense autofocus />
-              </q-popup-edit>
             </q-td>
             <!-- nombre mostrar -->
             <q-td key="nombreMostrar" :props="props">
