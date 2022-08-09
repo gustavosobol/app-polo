@@ -1,5 +1,13 @@
 version: "3"
 services:
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8888:8080"
+    #    expose:
+    #      - "8080"
+    environment:
+      API_URL: http://localhost:4000/
   front:
     build: .
     container_name: front-polo
