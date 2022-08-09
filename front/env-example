@@ -1,0 +1,6 @@
+# This is your .env file
+# The data added here will be propagted to the client
+# example:
+# PORT=8080
+SERVER_PROXY='http://192.168.1.45:3000'
+
