@@ -1,5 +1,22 @@
 version: "3"
 services:
+  web:
+    container_name: nginx
+    image: nginx
+    volumes:
+      - ./configuraciones/nginx:/etc/nginx/conf.d
+      - ./front_produccion:/usr/share/nginx/html
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+    ports:
+      - ${PORT_NGINX}:80
+    networks:
+      polo:
+        ipv4_address: 192.168.200.6
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
   swagger:
     image: swaggerapi/swagger-ui
     ports:
@@ -108,7 +125,7 @@ volumes:
       device: "$PWD/postgres/pgadmin"
 networks:
   polo:
-    driver: bridge
+    #    driver: bridge
     ipam:
       driver: default
       config:
