@@ -102,7 +102,7 @@ model Personal {
   celular           String
   domicilio         String     
   barrio            String?
-localidadId       Int
+  localidadId       Int
   cursoLocalidad    LocalidadOnCurso[]
 
 }
@@ -141,7 +141,19 @@ model CursosActivos {
   cursoId           Int?
   turno             Turno?                  @relation(fields: [turnoId], references: [id], onDelete: NoAction)
   turnoId           Int?
- 
+}
+
+model Usuarios {
+  id                Int                     @default(autoincrement()) @id
+  user              String
+  nombreMostrar     String
+  descripcion       String?
+}
+
+model Perfiles {
+  id                Int                     @default(autoincrement()) @id
+  nombre            String
+  descripcion       String?
 }
 
 

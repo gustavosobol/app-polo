@@ -1,3 +1,4 @@
 proyecto/app-polo/node_modules/
 postgres/
 prisma/node_modules/
+back/node_modules

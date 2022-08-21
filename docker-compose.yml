@@ -25,6 +25,21 @@ services:
     #      - "8080"
     environment:
       API_URL: http://localhost:4000/
+  back:
+    build: ./back
+    container_name: back-polo
+    restart: always
+    ports:
+      - 4000:4000
+    volumes:
+      - back-vol:/back
+    networks:
+      polo:
+        ipv4_address: 192.168.200.7
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
   front:
     build: .
     container_name: front-polo
@@ -105,6 +120,12 @@ services:
       options:
         max-size: "2m"
 volumes:
+  back-vol:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$PWD/back"
   app-vol:
     driver: local
     driver_opts:
