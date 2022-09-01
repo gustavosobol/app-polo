@@ -148,12 +148,21 @@ model Usuarios {
   user              String
   nombreMostrar     String
   descripcion       String?
+  perfiles          UsuariosOnPerfiles[]
 }
 
 model Perfiles {
   id                Int                     @default(autoincrement()) @id
   nombre            String
   descripcion       String?
+  usuarios          UsuariosOnPerfiles[]
 }
 
-
+model UsuariosOnPerfiles {
+  usuarios          Usuarios           @relation(fields: [usuarioId], references: [id], onDelete: NoAction)
+  usuarioId         Int
+  perfil            Perfiles           @relation(fields: [perfilId], references: [id], onDelete: NoAction)
+  perfilId          Int
+  @@id([usuarioId, perfilId])
+  descripcion       String?
+}
