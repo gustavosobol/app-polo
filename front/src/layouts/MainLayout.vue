@@ -123,6 +123,13 @@ const linksList = [
     link: "#/listcursos/",
     target: "",
   },
+  {
+    title: "Lista Usuarios",
+    caption: "Lista Usuarios",
+    icon: "school",
+    link: "#/usuarios/",
+    target: "",
+  },
 ];
 
 import { defineComponent, ref } from "vue";

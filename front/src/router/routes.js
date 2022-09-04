@@ -68,7 +68,11 @@ const routes = [
         name: "Salas",
         component: () => import("pages/salas/index.vue"),
       },
-
+      {
+        path: "usuarios",
+        name: "Usuarios",
+        component: () => import("pages/usuarios/index.vue"),
+      },
       {
         path: "localidad-curso",
         name: "LocalidadCurso",
