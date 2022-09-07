@@ -143,6 +143,30 @@
                 <q-input type="text" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
+            <q-td key="password" :props="props">
+              {{ props.row.password }}
+              <q-popup-edit
+                v-model="props.row.password"
+                v-slot="scope"
+                title="Password"
+                buttons
+                label-set="Guardar"
+                label-cancel="Cancelar"
+                @save="
+                  (v, iv) => {
+                    save(v, iv, props.key, 'password');
+                  }
+                "
+              >
+                <q-input
+                  type="password"
+                  v-model="scope.value"
+                  dense
+                  autofocus
+                  hint="Password "
+                />
+              </q-popup-edit>
+            </q-td>
           </q-tr>
         </template>
       </q-table>
@@ -183,6 +207,13 @@ const columns = [
     name: "descripcion",
     label: "Descripcion",
     field: "descripcion",
+    sortable: true,
+    // style: "width: 10px",
+  },
+  {
+    name: "password",
+    label: "Password",
+    field: "password",
     sortable: true,
     // style: "width: 10px",
   },

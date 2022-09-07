@@ -23,7 +23,7 @@
               square
               clearable
               v-model="nombreMostrar"
-              type="nombreMostrar"
+              type="text"
               label="Nombre Usuario"
             >
               <template v-slot:prepend>
@@ -33,8 +33,19 @@
             <q-input
               square
               clearable
+              v-model="password"
+              type="password"
+              label="Password"
+            >
+              <template v-slot:prepend>
+                <q-icon name="inventory" />
+              </template>
+            </q-input>
+            <q-input
+              square
+              clearable
               v-model="descripcion"
-              type="descripcion"
+              type="text"
               label="Descripción"
             >
               <template v-slot:prepend>
@@ -66,6 +77,7 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const user = ref(null);
+    const password = ref(null);
     const descripcion = ref(null);
     const nombreMostrar = ref(null);
 
@@ -73,6 +85,7 @@ export default defineComponent({
       async addUser() {
         const userNew = {
           user: user.value,
+          password: password.value,
           nombreMostrar: nombreMostrar.value,
           descripcion: descripcion.value,
         };
@@ -108,6 +121,7 @@ export default defineComponent({
       },
       user,
       descripcion,
+      password,
       nombreMostrar,
     };
   },

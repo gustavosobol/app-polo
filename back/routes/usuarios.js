@@ -11,6 +11,9 @@ axios.defaults.baseURL = "http://192.168.1.45/api/";
 
 router.post("/", function (req, res) {
   console.log(`llega ${JSON.stringify(req.body)}`);
+  req.body.password = bcrypt.hashSync(req.body.password, 10);
+  console.log(`llega2 ${JSON.stringify(req.body)}`);
+
   axios
     .post("Usuarios", req.body, {
       headers: {
@@ -48,6 +51,10 @@ router.put("/:id", function (req, res) {
   const id = parseInt(req.params.id, 10);
   console.log(`id ${id}`);
   console.log(`body ${JSON.stringify(req.body)}`);
+  if (req.body.password != null) {
+    req.body.password = bcrypt.hashSync(req.body.password, 10);
+    console.log(`llega2 ${JSON.stringify(req.body)}`);
+  }
   axios
     .patch(`Usuarios?id=eq.${id}`, req.body, {
       headers: {
