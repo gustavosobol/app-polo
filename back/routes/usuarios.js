@@ -1,13 +1,13 @@
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const express = require("express");
-const console = require("console");
+// const console = require("console");
 const router = express.Router();
 // sirve para recibir req
 router.use(express.urlencoded({ extended: true }));
 
-const axios = require("axios").default;
-axios.defaults.baseURL = "http://192.168.1.45/api/";
+// configuraciones de axios
+const axios = require("../configuraciones/axios");
 
 router.post("/", function (req, res) {
   console.log(`llega ${JSON.stringify(req.body)}`);

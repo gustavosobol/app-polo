@@ -140,7 +140,7 @@ export default {
       async login() {
         const user = { usuario: email.value, contrasena: password.value };
         await api
-          .post("/login", user, {
+          .post("http://192.168.1.45/api-back/login", user, {
             headers: {
               accept: "application/json",
             },

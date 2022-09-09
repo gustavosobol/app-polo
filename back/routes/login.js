@@ -1,37 +1,42 @@
-let login = (usuario, contrasena) => {
-  // verifico si existe el usuario
-  return userModel
-    .findOne({
-      where: {
-        [Op.or]: [{ user: usuario }, { mail: usuario }],
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const express = require("express");
+const router = express.Router();
+
+// configuraciones de axios
+const axios = require("../configuraciones/axios");
+
+router.post("/login", function (req, res) {
+  console.log(`req login ${JSON.stringify(req.body)}`);
+
+  axios
+    .get(`Usuarios?user=like.*${req.body.usuario}*`, {
+      headers: {
+        accept: "application/json",
       },
     })
-    .then((resultado) => {
-      if (resultado) {
-        return bcrypt.compare(contrasena, resultado.password).then((resul) => {
-          if (resul) {
-            if (resultado.discontinued == 0) {
-              //  varUsuario.usuarioLogueado = resultado;
-              const token = jwt.sign(
-                { dataUser: resultado },
-                process.env.JWT_SECRET,
-                { expiresIn: 3600 }
-              );
-              //agrego para que lo guarde en una variable global para que no
-              // este pidiendo en cada consulta
-              varUsuario.token = token;
-              return token;
+    .then((response) => {
+      try {
+        console.log(
+          `req login2 ${JSON.stringify(response.data[0]["password"])}`
+        );
+        bcrypt
+          .compare(req.body.contrasena, response.data[0]["password"])
+          .then((result) => {
+            console.log(`result ${result}`);
+            if (result) {
+              reutres.status(200).json(response.data);
             } else {
-              throw "deshabilitado";
+              res.status(401).json("Error de contraseña");
             }
-          } else {
-            return false;
-          }
-        });
+          });
+      } catch (e) {
+        console.log(e);
       }
-      return false;
     })
-    .catch((error) => {
-      return error;
+    .catch(function (error) {
+      console.log(`error ${error}`);
     });
-};
+});
+
+module.exports = router;

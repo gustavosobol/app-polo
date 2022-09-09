@@ -13,6 +13,10 @@ app.use(cors());
 // sirve para leer los req de json o arrays json
 app.use(express.json());
 
+// configuraciones de login
+const login = require("./routes/login");
+app.use("/", login);
+
 // configuraciones de usuarios
 const usuarios = require("./routes/usuarios.js");
 app.use("/usuarios", usuarios);
