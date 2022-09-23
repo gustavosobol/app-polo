@@ -39,6 +39,9 @@
 </template>
 
 <script>
+import { api } from "boot/axios";
+import { useQuasar, SessionStorage } from "quasar";
+import { useRouter } from "vue-router";
 import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
@@ -146,6 +149,8 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const router = useRouter();
+    const $q = useQuasar();
 
     return {
       essentialLinks: linksList,
@@ -154,14 +159,17 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       logout() {
+        console.log(`llega logout front ${SessionStorage.getItem("jwt")}`);
         api
           .delete("logout", {
             headers: {
               accept: "application/json",
+              Authorization: SessionStorage.getItem("jwt"),
             },
           })
           .then((response) => {
             SessionStorage.remove("jwt");
+            console.log(`then`);
             $q.notify({
               color: "positive",
               position: "bottom",

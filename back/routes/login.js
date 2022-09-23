@@ -17,9 +17,11 @@ router.post("/login", function (req, res) {
     })
     .then((response) => {
       try {
+        /* 
         console.log(
           `req login2 ${JSON.stringify(response.data[0]["password"])}`
-        );
+        ); */
+        response.data[0]["token"] = "";
         bcrypt
           .compare(req.body.contrasena, response.data[0]["password"])
           .then((result) => {
@@ -57,7 +59,11 @@ router.post("/login", function (req, res) {
     });
 });
 
-router.delete("/logout", function (req, res) {});
+router.delete("/logout", function (req, res) {
+  console.log(`antes del OGOUT`);
+  res.json(seguridad.removeAccessToken(req, res));
+  console.log(`DESPUES del OGOUT`);
+});
 
 router.get(
   "/google",
@@ -86,7 +92,13 @@ router.get(
 );
 
 router.get("/returnSession", function (req, res) {
-  // console.log(`storage ${storage.getItem("jwt")}`);
+  if (storage.getItem("jwt") === null) {
+    console.log(`igual null ${storage.getItem("jwt")}`);
+    res.status(401).send({
+      status: 401,
+      message: "null",
+    });
+  }
   if (storage.getItem("jwt") !== undefined) {
     tokenDevuelto = storage.getItem("jwt");
     storage.removeItem("jwt");
