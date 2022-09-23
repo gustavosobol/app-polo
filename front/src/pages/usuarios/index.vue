@@ -225,7 +225,7 @@ export default {
     const data = ref([]);
     function returnUsuarios() {
       api
-        .get("http://192.168.1.45/api-back/usuarios")
+        .get("/usuarios")
         .then((response) => {
           console.log(`print response ${JSON.stringify(response.data.data)}`);
           data.value = response.data;
@@ -247,15 +247,11 @@ export default {
       save(value, initialValue, id, field) {
         const turno = `{ "${field}": "${value}"  }`;
         api
-          .put(
-            `http://192.168.1.45/api-back/usuarios/${id}`,
-            JSON.parse(turno),
-            {
-              headers: {
-                accept: "application/json",
-              },
-            }
-          )
+          .put(`/usuarios/${id}`, JSON.parse(turno), {
+            headers: {
+              accept: "application/json",
+            },
+          })
           .then((response) => {
             $q.notify({
               color: "positive",
@@ -275,7 +271,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`http://192.168.1.45/api-back/usuarios/${id}`, {
+          .delete(`/usuarios/${id}`, {
             headers: {
               accept: "application/json",
             },

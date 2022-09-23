@@ -150,6 +150,7 @@ model Usuarios {
   descripcion       String?
   password          String?
   token             String?
+  imagen            String?
   perfiles          UsuariosOnPerfiles[]
 }
 

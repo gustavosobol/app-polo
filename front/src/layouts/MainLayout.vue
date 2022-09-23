@@ -11,9 +11,12 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> Sistema Alumnos Polo Creativo</q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          <!-- Quasar v{{ $q.version }} -->
+          <q-btn round color="negative" icon="logout" @click="logout()" />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -149,6 +152,32 @@ export default defineComponent({
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+      logout() {
+        api
+          .delete("logout", {
+            headers: {
+              accept: "application/json",
+            },
+          })
+          .then((response) => {
+            SessionStorage.remove("jwt");
+            $q.notify({
+              color: "positive",
+              position: "bottom",
+              message: `Has salido correctamente de la sesion`,
+              icon: "report_problem",
+            });
+            return router.push({ name: "login" });
+          })
+          .catch((error) => {
+            $q.notify({
+              color: "negative",
+              position: "bottom",
+              message: `Mensaje es aca? ${error}`,
+              icon: "report_problem",
+            });
+          });
       },
     };
   },

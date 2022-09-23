@@ -1,3 +1,6 @@
+import { SessionStorage } from "quasar";
+import { api } from "boot/axios";
+
 const routes = [
   {
     path: "",
@@ -78,6 +81,32 @@ const routes = [
         path: "usuarios",
         name: "Usuarios",
         component: () => import("pages/usuarios/index.vue"),
+        // component: () => import("pages/Index.vue"),
+        beforeEnter: (to, from, next) => {
+          // ...
+
+          let token = SessionStorage.getItem("jwt");
+          console.log(`before toke ${token}`);
+          if (token === null) {
+            api
+              .get("returnSession", {
+                headers: {
+                  accept: "application/json",
+                },
+              })
+              .then((response) => {
+                SessionStorage.set("jwt", response.data.message);
+                token = SessionStorage.getItem("jwt");
+                //next({ name: "home" });
+                next();
+              })
+              .catch((error) => {
+                next({ name: "login" });
+              });
+          } else {
+            next();
+          }
+        },
       },
       {
         path: "localidad-curso",

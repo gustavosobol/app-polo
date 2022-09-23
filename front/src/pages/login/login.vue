@@ -140,13 +140,14 @@ export default {
       async login() {
         const user = { usuario: email.value, contrasena: password.value };
         await api
-          .post("http://192.168.1.45/api-back/login", user, {
+          .post("/login", user, {
             headers: {
               accept: "application/json",
             },
           })
           .then((response) => {
-            SessionStorage.set("jwt", response.data.message);
+            console.log(`return ${JSON.stringify(response.data)}`);
+            SessionStorage.set("jwt", response.data);
             return router.push({ name: "home" });
           })
           .catch((error) => {
@@ -160,11 +161,12 @@ export default {
       },
       async google() {
         SessionStorage.remove("jwt");
-        location.href = `${process.env.API}/google`;
+
+        location.href = `${process.env.SERVER_PROXY}/google`;
       },
       async linkedin() {
         SessionStorage.remove("jwt");
-        location.href = `${process.env.API}/linkedin`;
+        location.href = `${process.env.SERVER_PROXY}/linkedin`;
       },
       datos,
       register,

@@ -5,7 +5,9 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 // puerto que se va a publicar la app
-let port = 4000;
+let port = process.env.PORT || 4000;
+// importo y cargo passport
+const passportGoogle = require("./configuraciones/passport-google");
 // asigno aplicaciones importadas
 const app = express();
 app.use(helmet());
@@ -23,5 +25,5 @@ app.use("/usuarios", usuarios);
 
 //Inicializo los servidores
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}/`);
+  console.log(`Servidor corriendo en http://${process.env.HOST}:${port}/`);
 });

@@ -33,6 +33,7 @@ router.post("/", function (req, res) {
 });
 
 router.get("/", function (req, res) {
+  console.log(`req login ${axios}`);
   axios
     .get("Usuarios", {
       headers: {

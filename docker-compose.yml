@@ -10,6 +10,12 @@ services:
       - /etc/localtime:/etc/localtime
     ports:
       - ${PORT_NGINX}:80
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
     networks:
       polo:
         ipv4_address: 192.168.200.6

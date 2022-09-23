@@ -1,14 +1,14 @@
-const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const seguridad = require("../middlewares/seguridad");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
-
+const passport = require("passport");
+const storage = require("sessionstorage");
 // configuraciones de axios
 const axios = require("../configuraciones/axios");
 
 router.post("/login", function (req, res) {
-  console.log(`req login ${JSON.stringify(req.body)}`);
-
   axios
     .get(`Usuarios?user=like.*${req.body.usuario}*`, {
       headers: {
@@ -25,7 +25,25 @@ router.post("/login", function (req, res) {
           .then((result) => {
             console.log(`result ${result}`);
             if (result) {
-              reutres.status(200).json(response.data);
+              const token = seguridad.generateAccessToken(response.data[0]);
+              const tokenUpdate = `{ "token": "${token}"  }`;
+              axios
+                .patch(
+                  `Usuarios?id=eq.${response.data[0]["id"]}`,
+                  JSON.parse(tokenUpdate),
+                  {
+                    headers: {
+                      accept: "application/json",
+                    },
+                  }
+                )
+                .then((response) => {
+                  console.log(`respondo ${JSON.stringify(response.data)}`);
+                  res.status(200).json(token);
+                })
+                .catch((error) => {
+                  return error;
+                });
             } else {
               res.status(401).json("Error de contraseña");
             }
@@ -37,6 +55,51 @@ router.post("/login", function (req, res) {
     .catch(function (error) {
       console.log(`error ${error}`);
     });
+});
+
+router.delete("/logout", function (req, res) {});
+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  }),
+
+  function (req, res) {}
+);
+
+router.get(
+  "/callback",
+  passport.authenticate("google", {
+    // scope: [`email`, `profile`],
+    // successRedirect: `http://${process.env.HOST_FRONT}/#/home`,
+    // successRedirect: `https://www.google.com.ar`,
+    failureRdirect: `http://${process.env.HOST_FRONT}/#/`,
+    session: false,
+  }),
+  // midUsers.postCallBack,
+  function (req, res) {
+    //console.log(`body ${JSON.stringify(req.user)}`);
+    // console.log(`storage callback ${storage.getItem("jwt")}`);
+    res.redirect(`http://${process.env.HOST_FRONT}/#/usuarios`);
+  }
+);
+
+router.get("/returnSession", function (req, res) {
+  // console.log(`storage ${storage.getItem("jwt")}`);
+  if (storage.getItem("jwt") !== undefined) {
+    tokenDevuelto = storage.getItem("jwt");
+    storage.removeItem("jwt");
+    res.status(200).send({
+      status: 200,
+      message: tokenDevuelto,
+    });
+  } else {
+    res.status(401).send({
+      status: 401,
+      message: "null",
+    });
+  }
 });
 
 module.exports = router;
