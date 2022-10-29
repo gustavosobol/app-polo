@@ -14,14 +14,15 @@ app.use(helmet());
 app.use(cors());
 // sirve para leer los req de json o arrays json
 app.use(express.json());
-
+// importacion de middlewes
+const midSeguridad = require("./middlewares/seguridad");
 // configuraciones de login
 const login = require("./routes/login");
 app.use("/", login);
 
 // configuraciones de usuarios
 const usuarios = require("./routes/usuarios.js");
-app.use("/usuarios", usuarios);
+app.use("/usuarios", [midSeguridad.userLog], usuarios);
 
 //Inicializo los servidores
 app.listen(port, () => {

@@ -84,10 +84,7 @@ const routes = [
         // component: () => import("pages/Index.vue"),
         beforeEnter: (to, from, next) => {
           // ...
-
-          let token = SessionStorage.getItem("jwt");
-          console.log(`before toke ${token}`);
-          if (token === null) {
+          if (SessionStorage.getItem("jwt") === null) {
             api
               .get("returnSession", {
                 headers: {
@@ -96,8 +93,6 @@ const routes = [
               })
               .then((response) => {
                 SessionStorage.set("jwt", response.data.message);
-                token = SessionStorage.getItem("jwt");
-                //next({ name: "home" });
                 next();
               })
               .catch((error) => {

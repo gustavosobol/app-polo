@@ -85,9 +85,14 @@ router.get(
   }),
   // midUsers.postCallBack,
   function (req, res) {
-    //console.log(`body ${JSON.stringify(req.user)}`);
+    // console.log(`body ${JSON.stringify(req.user)} `);
     // console.log(`storage callback ${storage.getItem("jwt")}`);
-    res.redirect(`http://${process.env.HOST_FRONT}/#/usuarios`);
+
+    if (req.user.length === 0) {
+      res.redirect(`http://${process.env.HOST_FRONT}/#/`);
+    } else {
+      res.redirect(`http://${process.env.HOST_FRONT}/#/usuarios`);
+    }
   }
 );
 

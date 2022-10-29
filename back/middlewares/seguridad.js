@@ -77,4 +77,31 @@ const checkToken = (req, res) => {
   });
 };
 
-module.exports = { generateAccessToken, removeAccessToken };
+const userAdmin = (req, res, next) => {
+  const userToken = checkToken(req, res);
+  userToken.dataUser.profile === "admin"
+    ? next()
+    : res.json(`Su usuario no posee permisos para realizar modificaciones`);
+};
+// Verifica el usuario si esta habilitado
+const userLog = async (req, res, next) => {
+  console.log(`ingreso al userLog ${req.headers.authorization}`);
+
+  const userToken = await checkToken(req, res);
+  if (userToken === undefined) {
+    console.log("ingreso al userLog undefinid");
+    return res.json({
+      message: `${userToken}`,
+      status: 401,
+    });
+  } else if (typeof userToken === "object") {
+    next();
+  } else {
+    return res.json({
+      message: `${userToken}`,
+      status: 200,
+    });
+  }
+};
+
+module.exports = { generateAccessToken, removeAccessToken, userAdmin, userLog };

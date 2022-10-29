@@ -176,7 +176,7 @@
 <script>
 import { api } from "boot/axios";
 import { ref, onMounted } from "vue";
-import { useQuasar } from "quasar";
+import { useQuasar, SessionStorage } from "quasar";
 import AddUsuario from "../../components/usuario/AddUsuario.vue";
 
 const columns = [
@@ -225,7 +225,12 @@ export default {
     const data = ref([]);
     function returnUsuarios() {
       api
-        .get("/usuarios")
+        .get("/usuarios", {
+          headers: {
+            accept: "application/json",
+            Authorization: SessionStorage.getItem("jwt"),
+          },
+        })
         .then((response) => {
           console.log(`print response ${JSON.stringify(response.data.data)}`);
           data.value = response.data;

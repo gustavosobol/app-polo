@@ -8,6 +8,7 @@ const { empty } = require("statuses");
 const cors = require("cors");
 passport.use(cors());
 const storage = require("sessionstorage");
+const { nextLine } = require("console-control-strings");
 
 passport.use(
   new GoogleStrategy(
@@ -34,8 +35,8 @@ passport.use(
         })
         .then((response) => {
           let user = response.data[0];
-          if (user.length === 0) {
-            console.log(`is null `);
+          if (response.data.length === 0) {
+            return done(null, response.data);
           } else {
             //console.log(`is llega ${JSON.stringify(user.id)}`);
             user.token = "";
