@@ -144,7 +144,7 @@ export default {
     const data = ref([]);
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get(`localidad`, {
           headers: {
             accept: "application/json",
           },
@@ -169,7 +169,7 @@ export default {
       save(value, initialValue, id, field) {
         const localidades = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Localidad?id=eq.${id}`, JSON.parse(localidades), {
+          .put(`/localidad/${id}`, JSON.parse(localidades), {
             headers: {
               accept: "application/json",
             },
@@ -193,7 +193,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Localidad?id=eq.${id}`, {
+          .delete(`/localidad/${id}`, {
             headers: {
               accept: "application/json",
             },

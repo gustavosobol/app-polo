@@ -208,7 +208,7 @@ export default defineComponent({
         };
         console.log(`Alumno ${JSON.stringify(alumnoNew)}`);
         await api
-          .post("Alumno", alumnoNew, {
+          .post("alumnos", alumnoNew, {
             headers: {
               accept: "application/json",
             },

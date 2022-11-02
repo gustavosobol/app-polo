@@ -359,7 +359,7 @@ export default {
     const localidades = ref([]);
     function returnAlumno() {
       api
-        .get("Alumno?select=*, Localidad(nombre)", {
+        .get("alumnos", {
           headers: {
             accept: "application/json",
           },
@@ -379,7 +379,7 @@ export default {
     }
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get("localidad", {
           headers: {
             accept: "application/json",
           },
@@ -408,7 +408,7 @@ export default {
       save(value, initialValue, id, field) {
         const alumno = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Alumno?id=eq.${id}`, JSON.parse(alumno), {
+          .put(`/alumnos/${id}`, JSON.parse(alumno), {
             headers: {
               accept: "application/json",
             },
@@ -432,7 +432,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Alumno?id=eq.${id}`, {
+          .delete(`/alumnos/${id}`, {
             headers: {
               accept: "application/json",
             },

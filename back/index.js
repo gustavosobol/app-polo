@@ -24,6 +24,14 @@ app.use("/", login);
 const usuarios = require("./routes/usuarios.js");
 app.use("/usuarios", [midSeguridad.userLog], usuarios);
 
+// configuraciones de alumnos
+const alumnos = require("./routes/alumnos.js");
+app.use("/alumnos", alumnos);
+
+// configuraciones de localidad
+const localidad = require("./routes/localidad.js");
+app.use("/localidad", localidad);
+
 //Inicializo los servidores
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://${process.env.HOST}:${port}/`);

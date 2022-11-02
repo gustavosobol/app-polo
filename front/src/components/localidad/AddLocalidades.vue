@@ -49,7 +49,7 @@ export default defineComponent({
           nombre: nombre.value,
         };
         await api
-          .post("Localidad", localidadNew, {
+          .post("localidad", localidadNew, {
             headers: {
               accept: "application/json",
             },
