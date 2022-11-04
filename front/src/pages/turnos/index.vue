@@ -168,7 +168,7 @@ export default {
     const data = ref([]);
     function returnTurnos() {
       api
-        .get("Turno", {
+        .get("turno", {
           headers: {
             accept: "application/json",
           },
@@ -193,7 +193,7 @@ export default {
       save(value, initialValue, id, field) {
         const turno = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Turno?id=eq.${id}`, JSON.parse(turno), {
+          .put(`/turno/${id}`, JSON.parse(turno), {
             headers: {
               accept: "application/json",
             },
@@ -217,7 +217,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Turno?id=eq.${id}`, {
+          .delete(`/turno/${id}`, {
             headers: {
               accept: "application/json",
             },

@@ -32,6 +32,10 @@ app.use("/alumnos", alumnos);
 const localidad = require("./routes/localidad.js");
 app.use("/localidad", localidad);
 
+// configuraciones de turno
+const turno = require("./routes/turnos.js");
+app.use("/turno", turno);
+
 //Inicializo los servidores
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://${process.env.HOST}:${port}/`);

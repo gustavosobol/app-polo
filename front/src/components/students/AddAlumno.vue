@@ -138,7 +138,7 @@ export default defineComponent({
     const localidades = ref([]);
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get("turno", {
           headers: {
             accept: "application/json",
           },

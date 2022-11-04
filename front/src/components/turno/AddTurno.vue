@@ -63,7 +63,7 @@ export default defineComponent({
           nombre: nombre.value,
         };
         await api
-          .post("Turno", turnoNew, {
+          .post("turno", turnoNew, {
             headers: {
               accept: "application/json",
             },
