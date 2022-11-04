@@ -75,7 +75,7 @@ export default defineComponent({
           edadFin: edadFin.value,
         };
         await api
-          .post("Destinatarios", destinatarioNew, {
+          .post("destinatario", destinatarioNew, {
             headers: {
               accept: "application/json",
             },

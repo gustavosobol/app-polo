@@ -11,7 +11,7 @@ const axios = require("../configuraciones/axios");
 // get
 router.get("/", function (req, res) {
   axios
-    .get("Localidad", {
+    .get("Destinatarios", {
       headers: {
         accept: "application/json",
       },
@@ -26,7 +26,7 @@ router.get("/", function (req, res) {
 // post
 router.post("/", function (req, res) {
   axios
-    .post("Localidad", req.body, {
+    .post("Destinatarios", req.body, {
       headers: {
         accept: "application/json",
       },
@@ -47,7 +47,7 @@ router.post("/", function (req, res) {
 router.put("/:id", function (req, res) {
   const id = parseInt(req.params.id, 10);
   axios
-    .patch(`Localidad?id=eq.${id}`, req.body, {
+    .patch(`Destinatarios?id=eq.${id}`, req.body, {
       headers: {
         accept: "application/json",
       },
@@ -64,7 +64,7 @@ router.put("/:id", function (req, res) {
 router.delete("/:id", function (req, res) {
   const id = parseInt(req.params.id, 10);
   axios
-    .delete(`Localidad?id=eq.${id}`, {
+    .delete(`Destinatarios?id=eq.${id}`, {
       headers: {
         accept: "application/json",
       },

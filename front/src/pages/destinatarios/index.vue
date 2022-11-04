@@ -193,7 +193,7 @@ export default {
     const data = ref([]);
     function returnDestinatarios() {
       api
-        .get("Destinatarios", {
+        .get("destinatario", {
           headers: {
             accept: "application/json",
           },
@@ -218,7 +218,7 @@ export default {
       save(value, initialValue, id, field) {
         const destinatarios = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Destinatarios?id=eq.${id}`, JSON.parse(destinatarios), {
+          .put(`/destinatario/${id}`, JSON.parse(destinatarios), {
             headers: {
               accept: "application/json",
             },
@@ -242,7 +242,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Destinatarios?id=eq.${id}`, {
+          .delete(`/destinatario/${id}`, {
             headers: {
               accept: "application/json",
             },
