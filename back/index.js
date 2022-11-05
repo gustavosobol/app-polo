@@ -36,9 +36,13 @@ app.use("/localidad", localidad);
 const turno = require("./routes/turnos.js");
 app.use("/turno", turno);
 
-// configuraciones de turno
+// configuraciones de destinatario
 const destinatario = require("./routes/destinatario.js");
 app.use("/destinatario", destinatario);
+
+// configuraciones de tipoCurso
+const tipoCurso = require("./routes/tipoCurso.js");
+app.use("/tipoCurso", tipoCurso);
 
 //Inicializo los servidores
 app.listen(port, () => {

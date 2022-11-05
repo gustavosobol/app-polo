@@ -63,7 +63,7 @@ export default defineComponent({
           descripcion: descripcion.value,
         };
         await api
-          .post("TipoCurso", tipoCursoNew, {
+          .post("tipoCurso", tipoCursoNew, {
             headers: {
               accept: "application/json",
             },

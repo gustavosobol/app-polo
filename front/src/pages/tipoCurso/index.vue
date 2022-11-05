@@ -168,7 +168,7 @@ export default {
     const data = ref([]);
     function returnTipoCurso() {
       api
-        .get("TipoCurso", {
+        .get("tipoCurso", {
           headers: {
             accept: "application/json",
           },
@@ -193,7 +193,7 @@ export default {
       save(value, initialValue, id, field) {
         const tipoCurso = `{ "${field}": "${value}"  }`;
         api
-          .patch(`TipoCurso?id=eq.${id}`, JSON.parse(tipoCurso), {
+          .put(`/tipoCurso/${id}`, JSON.parse(tipoCurso), {
             headers: {
               accept: "application/json",
             },
@@ -217,7 +217,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`TipoCurso?id=eq.${id}`, {
+          .delete(`/tipoCurso/${id}`, {
             headers: {
               accept: "application/json",
             },
