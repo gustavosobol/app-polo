@@ -22,6 +22,7 @@ model Localidad {
   id                Int                     @default(autoincrement()) @id
   nombre            String
   alumnos           Alumno[]
+  personal          Personal[]
   salas             Salas[]
   cursos            LocalidadOnCurso[]
   // personal          Personal[]
@@ -102,6 +103,7 @@ model Personal {
   celular           String
   domicilio         String     
   barrio            String?
+  localidad         Localidad               @relation(fields: [localidadId], references: [id], onDelete: NoAction)
   localidadId       Int
   cursoLocalidad    LocalidadOnCurso[]
 

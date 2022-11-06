@@ -11,7 +11,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    
+
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -349,7 +349,7 @@ export default {
     const localidades = ref([]);
     function returnPersonal() {
       api
-        .get("Personal?select=*, Localidad(nombre)", {
+        .get("personal", {
           headers: {
             accept: "application/json",
           },
@@ -369,7 +369,7 @@ export default {
     }
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get("/localidad", {
           headers: {
             accept: "application/json",
           },
@@ -398,7 +398,7 @@ export default {
       save(value, initialValue, id, field) {
         const personal = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Personal?id=eq.${id}`, JSON.parse(personal), {
+          .put(`/personal/${id}`, JSON.parse(personal), {
             headers: {
               accept: "application/json",
             },
@@ -422,7 +422,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Personal?id=eq.${id}`, {
+          .delete(`/personal/${id}`, {
             headers: {
               accept: "application/json",
             },

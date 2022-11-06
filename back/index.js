@@ -44,6 +44,10 @@ app.use("/destinatario", destinatario);
 const tipoCurso = require("./routes/tipoCurso.js");
 app.use("/tipoCurso", tipoCurso);
 
+// configuraciones de personal
+const personal = require("./routes/personal.js");
+app.use("/personal", personal);
+
 //Inicializo los servidores
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://${process.env.HOST}:${port}/`);
