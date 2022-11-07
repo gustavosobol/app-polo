@@ -52,6 +52,10 @@ app.use("/personal", personal);
 const curso = require("./routes/curso.js");
 app.use("/curso", curso);
 
+// configuraciones de sala
+const sala = require("./routes/sala.js");
+app.use("/sala", sala);
+
 //Inicializo los servidores
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://${process.env.HOST}:${port}/`);

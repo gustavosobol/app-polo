@@ -67,7 +67,7 @@ export default defineComponent({
     const localidad = ref([]);
     function returnLocalidad() {
       api
-        .get("Localidad", {
+        .get("localidad", {
           headers: {
             accept: "application/json",
           },
@@ -99,9 +99,8 @@ export default defineComponent({
           descripcion: descripcion.value,
           localidadId: localidadId.value.id,
         };
-        console.log(`add curso ${JSON.stringify(salaNew)}`);
         await api
-          .post("Salas", salaNew, {
+          .post("sala", salaNew, {
             headers: {
               accept: "application/json",
             },

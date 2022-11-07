@@ -180,7 +180,7 @@ export default {
     const data = ref([]);
     function returnSala() {
       api
-        .get("Salas?select=*, Localidad(nombre)", {
+        .get("sala", {
           headers: {
             accept: "application/json",
           },
@@ -205,7 +205,7 @@ export default {
       save(value, initialValue, id, field) {
         const sala = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Salas?id=eq.${id}`, JSON.parse(sala), {
+          .put(`/sala/${id}`, JSON.parse(sala), {
             headers: {
               accept: "application/json",
             },
@@ -229,7 +229,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Salas?id=eq.${id}`, {
+          .delete(`/sala/${id}`, {
             headers: {
               accept: "application/json",
             },
