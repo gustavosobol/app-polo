@@ -207,7 +207,7 @@ export default defineComponent({
           localidadId: localidadId.value.id,
         };
         await api
-          .post("Personal", personalNew, {
+          .post("personal", personalNew, {
             headers: {
               accept: "application/json",
             },

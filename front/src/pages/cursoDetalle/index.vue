@@ -180,7 +180,7 @@ export default {
     const data = ref([]);
     function returnCurso() {
       api
-        .get("Curso?select=*, TipoCurso(nombre)", {
+        .get("curso", {
           headers: {
             accept: "application/json",
           },
@@ -205,7 +205,7 @@ export default {
       save(value, initialValue, id, field) {
         const curso = `{ "${field}": "${value}"  }`;
         api
-          .patch(`Curso?id=eq.${id}`, JSON.parse(curso), {
+          .put(`/curso/${id}`, JSON.parse(curso), {
             headers: {
               accept: "application/json",
             },
@@ -229,7 +229,7 @@ export default {
       },
       eliminar(id) {
         api
-          .delete(`Curso?id=eq.${id}`, {
+          .delete(`/curso/${id}`, {
             headers: {
               accept: "application/json",
             },

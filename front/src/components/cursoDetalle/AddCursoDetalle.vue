@@ -68,7 +68,7 @@ export default defineComponent({
 
     function returnTipoCurso() {
       api
-        .get("TipoCurso", {
+        .get("tipoCurso", {
           headers: {
             accept: "application/json",
           },
@@ -103,7 +103,7 @@ export default defineComponent({
         };
         console.log(`add curso ${JSON.stringify(cursoNew)}`);
         await api
-          .post("Curso", cursoNew, {
+          .post("curso", cursoNew, {
             headers: {
               accept: "application/json",
             },
