@@ -390,14 +390,11 @@ export default {
     const data = ref([]);
     function returnCursoDestinatario() {
       api
-        .get(
-          "LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre),Personal(apellido), Destinatarios(nombre)",
-          {
-            headers: {
-              accept: "application/json",
-            },
-          }
-        )
+        .get("localidadCurso", {
+          headers: {
+            accept: "application/json",
+          },
+        })
         .then((response) => {
           data.value = response.data;
         })
@@ -414,7 +411,7 @@ export default {
     const destinatario = ref([]);
     function returnDestinatario() {
       api
-        .get("Destinatarios", {
+        .get("destinatario", {
           headers: {
             accept: "application/json",
           },
@@ -435,7 +432,7 @@ export default {
     const personal = ref([]);
     function returnPersonal() {
       api
-        .get("Personal", {
+        .get("personal", {
           headers: {
             accept: "application/json",
           },
@@ -456,7 +453,7 @@ export default {
     const curso = ref([]);
     function returnCurso() {
       api
-        .get("Curso", {
+        .get("curso", {
           headers: {
             accept: "application/json",
           },
@@ -477,7 +474,7 @@ export default {
     const localidades = ref([]);
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get("localidad", {
           headers: {
             accept: "application/json",
           },
@@ -507,8 +504,8 @@ export default {
       vigencia(idCurso, idDestinatario, valor) {
         const curso = `{ "vigente": "${valor}"  }`;
         api
-          .patch(
-            `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
+          .put(
+            `/localidadCurso/activo/${idCurso}/${idDestinatario}`,
             JSON.parse(curso),
             {
               headers: {
@@ -537,8 +534,8 @@ export default {
       save(value, initialValue, idCurso, idDestinatario, field) {
         const curso = `{ "${field}": "${value}"  }`;
         api
-          .patch(
-            `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
+          .put(
+            `/localidadCurso/${idCurso}/${idDestinatario}`,
             JSON.parse(curso),
             {
               headers: {

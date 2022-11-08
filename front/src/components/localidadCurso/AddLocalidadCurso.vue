@@ -93,7 +93,7 @@ export default defineComponent({
     const destinatario = ref([]);
     function returnPersonal() {
       api
-        .get("Personal", {
+        .get("personal", {
           headers: {
             accept: "application/json",
           },
@@ -112,7 +112,7 @@ export default defineComponent({
     }
     function returnCurso() {
       api
-        .get("Curso", {
+        .get("curso", {
           headers: {
             accept: "application/json",
           },
@@ -131,7 +131,7 @@ export default defineComponent({
     }
     function returnLocalidad() {
       api
-        .get("Localidad", {
+        .get("localidad", {
           headers: {
             accept: "application/json",
           },
@@ -150,7 +150,7 @@ export default defineComponent({
     }
     function returnDestinatario() {
       api
-        .get("Destinatarios", {
+        .get("destinatario", {
           headers: {
             accept: "application/json",
           },
@@ -193,7 +193,7 @@ export default defineComponent({
         };
         console.log(`add curso ${JSON.stringify(localidadCursoNew)}`);
         await api
-          .post("LocalidadOnCurso", localidadCursoNew, {
+          .post("localidadCurso", localidadCursoNew, {
             headers: {
               accept: "application/json",
             },
