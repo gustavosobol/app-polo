@@ -12,7 +12,7 @@ const axios = require("../configuraciones/axios");
 router.get("/", function (req, res) {
   axios
     .get(
-      "LocalidadOnCurso?select=*, Curso(nombre),Localidad(nombre),Personal(apellido), Destinatarios(nombre)",
+      "CursosActivos?select=*, Salas(nombre), LocalidadOnCurso(*, Localidad(nombre), Curso(nombre)), Turno(nombre)",
       {
         headers: {
           accept: "application/json",
@@ -26,25 +26,11 @@ router.get("/", function (req, res) {
       console.log(`error ${error}`);
     });
 });
-// get cursos activos
-router.get("/activos/", function (req, res) {
-  axios
-    .get("LocalidadOnCurso?vigente=eq.true", {
-      headers: {
-        accept: "application/json",
-      },
-    })
-    .then((response) => {
-      res.status(200).json(response.data);
-    })
-    .catch(function (error) {
-      console.log(`error ${error}`);
-    });
-});
+
 // post
 router.post("/", function (req, res) {
   axios
-    .post("LocalidadOnCurso", req.body, {
+    .post("CursosActivos", req.body, {
       headers: {
         accept: "application/json",
       },
@@ -62,19 +48,14 @@ router.post("/", function (req, res) {
 });
 
 //put
-router.put("/activo/:idCurso/:idDestinatario", function (req, res) {
-  const idCurso = parseInt(req.params.idCurso, 10);
-  const idDestinatario = parseInt(req.params.idDestinatario, 10);
+router.put("/:id", function (req, res) {
+  const id = parseInt(req.params.id, 10);
   axios
-    .patch(
-      `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
-      req.body,
-      {
-        headers: {
-          accept: "application/json",
-        },
-      }
-    )
+    .patch(`CursosActivos?id=eq.${id}`, req.body, {
+      headers: {
+        accept: "application/json",
+      },
+    })
     .then((response) => {
       return response;
     })
@@ -84,19 +65,14 @@ router.put("/activo/:idCurso/:idDestinatario", function (req, res) {
 });
 
 //put
-router.put("/:idCurso/:idDestinatario", function (req, res) {
-  const idCurso = parseInt(req.params.idCurso, 10);
-  const idDestinatario = parseInt(req.params.idDestinatario, 10);
+router.put("/activo/:id", function (req, res) {
+  const id = parseInt(req.params.id, 10);
   axios
-    .patch(
-      `LocalidadOnCurso?cursoId=eq.${idCurso}&localidadId=eq.${idDestinatario}`,
-      req.body,
-      {
-        headers: {
-          accept: "application/json",
-        },
-      }
-    )
+    .patch(`CursosActivos?id=eq.${id}`, req.body, {
+      headers: {
+        accept: "application/json",
+      },
+    })
     .then((response) => {
       return response;
     })
@@ -109,7 +85,7 @@ router.put("/:idCurso/:idDestinatario", function (req, res) {
 router.delete("/:id", function (req, res) {
   const id = parseInt(req.params.id, 10);
   axios
-    .delete(`LocalidadOnCurso?id=eq.${id}`, {
+    .delete(`CursosActivos?id=eq.${id}`, {
       headers: {
         accept: "application/json",
       },

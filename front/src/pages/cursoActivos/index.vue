@@ -485,7 +485,7 @@ export default defineComponent({
     const localidades = ref([]);
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get("localidad", {
           headers: {
             accept: "application/json",
           },
@@ -506,7 +506,7 @@ export default defineComponent({
     const salas = ref([]);
     function returnSalas() {
       api
-        .get("Salas", {
+        .get("sala", {
           headers: {
             accept: "application/json",
           },
@@ -527,7 +527,7 @@ export default defineComponent({
     const turno = ref([]);
     function returnTurno() {
       api
-        .get("Turno", {
+        .get("turno", {
           headers: {
             accept: "application/json",
           },
@@ -548,7 +548,7 @@ export default defineComponent({
     const curso = ref([]);
     function returnCurso() {
       api
-        .get("LocalidadOnCurso?vigente=eq.true", {
+        .get("localidadCurso/activos/", {
           headers: {
             accept: "application/json",
           },
@@ -569,14 +569,11 @@ export default defineComponent({
     const data = ref([]);
     function returnCursoDestinatario() {
       api
-        .get(
-          "CursosActivos?select=*, Salas(nombre), LocalidadOnCurso(*, Localidad(nombre), Curso(nombre)), Turno(nombre) ",
-          {
-            headers: {
-              accept: "application/json",
-            },
-          }
-        )
+        .get("cursoActivo", {
+          headers: {
+            accept: "application/json",
+          },
+        })
         .then((response) => {
           data.value = response.data;
         })
@@ -621,7 +618,7 @@ export default defineComponent({
       cursoActivo(id, valor) {
         const curso = `{ "activo": "${valor}"  }`;
         api
-          .patch(`CursosActivos?id=eq.${id}`, JSON.parse(curso), {
+          .put(`/cursoActivo/${id}`, JSON.parse(curso), {
             headers: {
               accept: "application/json",
             },
@@ -647,7 +644,7 @@ export default defineComponent({
       save(value, initialValue, id, field) {
         const curso = `{ "${field}": "${value}"  }`;
         api
-          .patch(`CursosActivos?id=eq.${id}`, JSON.parse(curso), {
+          .put(`/cursoActivo/${id}`, JSON.parse(curso), {
             headers: {
               accept: "application/json",
             },

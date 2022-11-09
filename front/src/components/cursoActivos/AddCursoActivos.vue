@@ -158,7 +158,7 @@ export default defineComponent({
     const localidades = ref([]);
     function returnLocalidades() {
       api
-        .get("Localidad", {
+        .get("localidad", {
           headers: {
             accept: "application/json",
           },
@@ -179,7 +179,7 @@ export default defineComponent({
     const curso = ref([]);
     function returnCurso() {
       api
-        .get("LocalidadOnCurso?vigente=eq.true", {
+        .get(`/localidadCurso/activos/`, {
           headers: {
             accept: "application/json",
           },
@@ -200,7 +200,7 @@ export default defineComponent({
     const salas = ref([]);
     function returnSalas() {
       api
-        .get("Salas", {
+        .get("sala", {
           headers: {
             accept: "application/json",
           },
@@ -221,7 +221,7 @@ export default defineComponent({
     const turno = ref([]);
     function returnTurno() {
       api
-        .get("Turno", {
+        .get("turno", {
           headers: {
             accept: "application/json",
           },
@@ -289,7 +289,7 @@ export default defineComponent({
         };
         console.log(`cursoActivoNew ${JSON.stringify(cursoActivoNew)}`);
         await api
-          .post("CursosActivos", cursoActivoNew, {
+          .post("cursoActivo", cursoActivoNew, {
             headers: {
               accept: "application/json",
             },

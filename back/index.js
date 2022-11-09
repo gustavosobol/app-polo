@@ -60,6 +60,10 @@ app.use("/sala", sala);
 const localidadCurso = require("./routes/localidadCurso.js");
 app.use("/localidadCurso", localidadCurso);
 
+// configuraciones de cursoActivo
+const cursoActivo = require("./routes/cursoActivo.js");
+app.use("/cursoActivo", cursoActivo);
+
 //Inicializo los servidores
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://${process.env.HOST}:${port}/`);
