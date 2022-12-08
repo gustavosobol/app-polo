@@ -541,14 +541,11 @@ export default defineComponent({
     const alumnosCursos = ref([]);
     function returnCursoDestinatario() {
       api
-        .get(
-          "AlumnoOnCursoActivo?select=*,Alumno(*),CursosActivos(*,LocalidadOnCurso(*,Curso(*),Personal(*)))",
-          {
-            headers: {
-              accept: "application/json",
-            },
-          }
-        )
+        .get("alumnoCursoActivo", {
+          headers: {
+            accept: "application/json",
+          },
+        })
         .then((response) => {
           alumnosCursos.value = response.data;
         })
