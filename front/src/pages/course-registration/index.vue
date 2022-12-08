@@ -31,7 +31,8 @@ export default {
     function returnAllCursos() {
       api
         .get(
-          `/CursosActivos?or=(nombreMostrar.like.**)&and=(activo.eq.true)&select=*,LocalidadOnCurso(nombreMostrar,descripcion, Localidad(nombre),Curso(nombre), Personal(apellido, nombre)),Salas(nombre)`,
+          // `/CursosActivos?or=(nombreMostrar.like.**)&and=(activo.eq.true)&select=*,LocalidadOnCurso(nombreMostrar,descripcion, Localidad(nombre),Curso(nombre), Personal(apellido, nombre)),Salas(nombre)`,
+          `/cursoActivo/portal`,
           {
             headers: {
               accept: "application/json",

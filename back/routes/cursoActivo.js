@@ -9,6 +9,25 @@ router.use(express.urlencoded({ extended: true }));
 // configuraciones de axios
 const axios = require("../configuraciones/axios");
 // get
+router.get("/portal/", function (req, res) {
+  axios
+    .get(
+      "CursosActivos?or=(nombreMostrar.like.**)&and=(activo.eq.true)&select=*,LocalidadOnCurso(nombreMostrar,descripcion, Localidad(nombre),Curso(nombre), Personal(apellido, nombre)),Salas(nombre)",
+      {
+        headers: {
+          accept: "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch(function (error) {
+      console.log(`error ${error}`);
+    });
+});
+
+// get
 router.get("/", function (req, res) {
   axios
     .get(
