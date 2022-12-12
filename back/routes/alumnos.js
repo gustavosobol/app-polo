@@ -8,6 +8,24 @@ router.use(express.urlencoded({ extended: true }));
 
 // configuraciones de axios
 const axios = require("../configuraciones/axios");
+
+// get alumno dni
+router.get("/:nro_doc", function (req, res) {
+  const nro_doc = parseInt(req.params.nro_doc, 10);
+  axios
+    .get(`Alumno?select=*, Localidad(nombre)&nroDocumento=eq.${nro_doc}`, {
+      headers: {
+        accept: "application/json",
+      },
+    })
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch(function (error) {
+      console.log(`error ${error}`);
+    });
+});
+
 // get
 router.get("/", function (req, res) {
   console.log(`req login ${axios}`);

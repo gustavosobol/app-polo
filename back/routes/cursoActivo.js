@@ -69,6 +69,7 @@ router.post("/", function (req, res) {
 //put
 router.put("/:id", function (req, res) {
   const id = parseInt(req.params.id, 10);
+  console.log(`print req.body ${req.body}`);
   axios
     .patch(`CursosActivos?id=eq.${id}`, req.body, {
       headers: {

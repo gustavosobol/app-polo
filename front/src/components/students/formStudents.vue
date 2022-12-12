@@ -206,7 +206,7 @@ export default defineComponent({
 
         if (newStudents.value === false) {
           api
-            .post("Alumno", alumnoNew, {
+            .post(`/alumnos`, alumnoNew, {
               headers: {
                 accept: "application/json",
               },
@@ -219,7 +219,8 @@ export default defineComponent({
             });
         } else {
           api
-            .patch(`Alumno?nroDocumento=eq.${nro_doc.value}`, alumnoNew, {
+            // .patch(`Alumno?nroDocumento=eq.${nro_doc.value}`, alumnoNew, {
+            .put(`/alumnos/${nro_doc.value}`, alumnoNew, {
               headers: {
                 accept: "application/json",
               },
@@ -236,7 +237,8 @@ export default defineComponent({
         let idAlumn = 0;
         api
           .get(
-            `Alumno?select=*, Localidad(nombre)&nroDocumento=eq.${nro_doc.value}`,
+            `/alumnos/${nro_doc.value}`,
+            // `Alumno?select=*, Localidad(nombre)&nroDocumento=eq.${nro_doc.value}`,
             {
               headers: {
                 accept: "application/json",
@@ -254,7 +256,7 @@ export default defineComponent({
                 nombreMostrar: `${nombreCurso} - ${apellido.value}, ${nombre.value}`,
               };
               api
-                .post("AlumnoOnCursoActivo", alumnoCursoNew, {
+                .post("alumnoCursoActivo", alumnoCursoNew, {
                   headers: {
                     accept: "application/json",
                   },
@@ -355,7 +357,8 @@ export default defineComponent({
       if (nro_doc.value !== undefined) {
         api
           .get(
-            `Alumno?select=*, Localidad(nombre)&nroDocumento=eq.${nro_doc.value}`,
+            `/alumnos/${nro_doc.value}`,
+            // `Alumno?select=*, Localidad(nombre)&nroDocumento=eq.${nro_doc.value}`,
             {
               headers: {
                 accept: "application/json",
